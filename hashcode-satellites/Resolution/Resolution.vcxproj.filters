@@ -18,12 +18,18 @@
     <ClInclude Include="Satellite.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ArgumentInvalideException.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Satellite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArgumentInvalideException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

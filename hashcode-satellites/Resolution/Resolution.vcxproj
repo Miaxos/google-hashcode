@@ -146,9 +146,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArgumentInvalideException.hpp" />
     <ClInclude Include="Satellite.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArgumentInvalideException.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Satellite.cpp" />
   </ItemGroup>

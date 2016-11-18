@@ -2,6 +2,7 @@
 
 #include <ostream>
 
+
 // Classe modélisant un satellite
 class Satellite
 {
@@ -9,7 +10,7 @@ class Satellite
 
     public:
 
-        // Constructeur
+        // Constructeur, lance une exception si un argument a une valeur invalide
         Satellite(int latitude, int longitude, int vitLat, int orientMaxTour, int orientMaxTotal);
 
         /*
