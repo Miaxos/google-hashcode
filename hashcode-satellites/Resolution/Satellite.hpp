@@ -11,7 +11,7 @@ class Satellite
     public:
 
         // Constructeur, lance une exception si un argument a une valeur invalide
-        Satellite(int latitude, int longitude, int vitLat, int orientMaxTour, int orientMaxTotal);
+        Satellite(int latitude, int longitude, int vitLat, unsigned int orientMaxTour, unsigned int orientMaxTotal);
 
         /*
             Déplace le satellite pour le faire passer au tour suivant

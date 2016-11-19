@@ -1,7 +1,7 @@
 #include "Satellite.hpp"
 #include "ArgumentInvalideException.hpp"
 
-Satellite::Satellite(int latitude, int longitude, int vitLat, int orientMaxTour, int orientMaxTotal) :
+Satellite::Satellite(int latitude, int longitude, int vitLat, unsigned int orientMaxTour, unsigned int orientMaxTotal) :
     m_latitude(latitude),
     m_longitude(longitude),
     m_vitLat(vitLat),
@@ -74,12 +74,50 @@ void Satellite::tourSuivant(int orientLat, int orientLong)
 
 
     // Orientation
-    orientLat = orientLat > m_orientMaxTour ? m_orientMaxTour : orientLat;
-    orientLong = orientLong > m_orientMaxTour ? m_orientMaxTour : orientLong;
 
-    m_orientLat += orientLat;
-    m_orientLong += orientLong;
+    // on vérifie qu'on ne dépasse pas l'intervalle max pour le tour
+    if(orientLat > m_orientMaxTour)
+    {
+        m_orientLat += m_orientMaxTour;
+    }
+    else if(orientLat < -m_orientMaxTour)
+    {
+        m_orientLat -= m_orientMaxTour;
+    }
+    else
+    {
+        m_orientLat += orientLat;
+    }
 
-    m_orientLat = m_orientLat > m_orientMaxTotal ? m_orientMaxTotal : m_orientLat;
-    m_orientLong = m_orientLong > m_orientMaxTotal ? m_orientMaxTotal : m_orientLong;
+    if(orientLong > m_orientMaxTour)
+    {
+        m_orientLong += m_orientMaxTour;
+    }
+    else if(orientLong < -m_orientMaxTour)
+    {
+        m_orientLong -= m_orientMaxTour;
+    }
+    else
+    {
+        m_orientLong += orientLong;
+    }
+
+    // on vérifie qu'on ne dépasse pas l'intervalle total max
+    if(m_orientLat > m_orientMaxTotal)
+    {
+        m_orientLat = m_orientMaxTotal;
+    }
+    else if(m_orientLat < -m_orientMaxTotal)
+    {
+        m_orientLat = -m_orientMaxTotal;
+    }
+
+    if(m_orientLong > m_orientMaxTotal)
+    {
+        m_orientLong = m_orientMaxTotal;
+    }
+    else if(m_orientLong < -m_orientMaxTotal)
+    {
+        m_orientLong = -m_orientMaxTotal;
+    }
 }
