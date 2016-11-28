@@ -2,6 +2,7 @@
 
 #include <ostream>
 
+class Photo;
 
 // Classe modélisant un satellite
 class Satellite
@@ -20,10 +21,17 @@ class Satellite
         */
         void tourSuivant(int orientLat, int orientLong);
 
+        // Indique que le satellite prend la photo donnée au tour donné
+        void prendrePhoto(Photo& photo, unsigned int tour);
+
         static const int VIT_LONG = -15; // vitesse du satellite en longitude, correspondant à la vitesse de rotation de la Terre
 
     private:
+
+        static unsigned int m_idCount;
     
+        unsigned int m_id; // l'id du satellite
+
         int m_latitude; // position du satellite en latitude
         int m_longitude; // position du satellite en longitude
         int m_vitLat; // vitesse du satellite en latitude

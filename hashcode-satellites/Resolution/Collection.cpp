@@ -22,21 +22,6 @@ Collection::Collection(unsigned int points, unsigned int nbImages, unsigned int 
     }
 }
 
-void Collection::addImage(int latitude, int longitude)
-{
-    if(latitude < -306000 || latitude > 306000)
-    {
-        throw ArgumentInvalideException("La latitude doit etre comprise entre -306000 et 306000");
-    }
-
-    if(longitude < -648000 || longitude > 647999)
-    {
-        throw ArgumentInvalideException("La longitude doit etre comprise entre -648000 et 647999");
-    }
-
-    m_images.push_back(Image(latitude, longitude));
-}
-
 void Collection::addIntervalle(unsigned int debut, unsigned int fin)
 {
     if(fin < debut)

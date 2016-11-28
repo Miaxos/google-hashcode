@@ -148,12 +148,14 @@
   <ItemGroup>
     <ClInclude Include="ArgumentInvalideException.hpp" />
     <ClInclude Include="Collection.hpp" />
+    <ClInclude Include="Photo.hpp" />
     <ClInclude Include="Satellite.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArgumentInvalideException.cpp" />
     <ClCompile Include="Collection.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Photo.cpp" />
     <ClCompile Include="Satellite.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

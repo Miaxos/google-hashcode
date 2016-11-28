@@ -1,5 +1,8 @@
 #include "Satellite.hpp"
 #include "ArgumentInvalideException.hpp"
+#include "Photo.hpp"
+
+unsigned int Satellite::m_idCount = 0; // le premier satellite créé aura l'id 0
 
 Satellite::Satellite(int latitude, int longitude, int vitLat, unsigned int orientMaxTour, unsigned int orientMaxTotal) :
     m_latitude(latitude),
@@ -8,7 +11,8 @@ Satellite::Satellite(int latitude, int longitude, int vitLat, unsigned int orien
     m_orientMaxTour(orientMaxTour),
     m_orientMaxTotal(orientMaxTotal),
     m_orientLat(0),
-    m_orientLong(0)
+    m_orientLong(0),
+    m_id(m_idCount)
 {
     if(latitude < -324000 || latitude > 324000)
     {
@@ -34,6 +38,8 @@ Satellite::Satellite(int latitude, int longitude, int vitLat, unsigned int orien
     {
         throw ArgumentInvalideException("L'orientation maximale totale doit etre comprise entre 0 et 10000");
     }
+
+    m_idCount++;
 }
 
 void Satellite::tourSuivant(int orientLat, int orientLong)
@@ -119,5 +125,14 @@ void Satellite::tourSuivant(int orientLat, int orientLong)
     else if(m_orientLong < -m_orientMaxTotal)
     {
         m_orientLong = -m_orientMaxTotal;
+    }
+}
+
+void Satellite::prendrePhoto(Photo& photo, unsigned int tour)
+{
+    if(!photo.m_photoPrise)
+    {
+        photo.m_idSatellitePhotographe = m_id;
+        photo.m_tourPhoto = tour;
     }
 }
