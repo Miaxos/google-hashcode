@@ -134,5 +134,6 @@ void Satellite::prendrePhoto(Photo& photo, unsigned int tour)
     {
         photo.m_idSatellitePhotographe = m_id;
         photo.m_tourPhoto = tour;
+		photo.m_photoPrise = true;
     }
 }
