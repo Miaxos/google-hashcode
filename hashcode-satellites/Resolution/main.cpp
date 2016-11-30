@@ -1,9 +1,14 @@
 #include <iostream>
 #include "Satellite.hpp"
 #include "ArgumentInvalideException.hpp"
+#include "Simulation.hpp"
 
 int main()
 {
+	Simulation s;
+
+	s.parseData("final_round_2016.in/constellation.in");
+
     try
     {
         Satellite s(176400, 7200, 120, 50, 500);

@@ -150,6 +150,7 @@
     <ClInclude Include="Collection.hpp" />
     <ClInclude Include="Photo.hpp" />
     <ClInclude Include="Satellite.hpp" />
+    <ClInclude Include="Simulation.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArgumentInvalideException.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Photo.cpp" />
     <ClCompile Include="Satellite.cpp" />
+    <ClCompile Include="Simulation.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
