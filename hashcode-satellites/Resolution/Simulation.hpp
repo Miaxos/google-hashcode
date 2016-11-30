@@ -2,12 +2,11 @@
 #include <vector>
 #include "Photo.hpp"
 #include "Collection.hpp"
-using namespace std;
 
 class Simulation {
 	private: 
-		vector<Satellite> satelliteListe;
-		vector<Collection> collectionListe;
+		std::vector<Satellite> satelliteListe;
+		std::vector<Collection> collectionListe;
 		int nombreTour;
 
 	public: 
