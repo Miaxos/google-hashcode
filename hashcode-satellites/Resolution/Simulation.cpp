@@ -12,18 +12,13 @@ void Simulation::parseData(const char *file) {
 	unsigned int lineCounter=1;
 	getline(dataFile, line);
 	Simulation::nombreTour = stoi(line);
-	cout << "Nous sommes à la ligne n° " << lineCounter << "\n";
-	cout << "Voici le nombre de tours de simulation: " << Simulation::nombreTour << "\n";
 	lineCounter++;
-	cout << "Nous sommes à la ligne n° " << lineCounter << "\n";
 	getline(dataFile, line);
 	const unsigned int satelliteNumber = stoi(line);
-	cout << "Voici le nombre de satellites: " << satelliteNumber << "\n";
 	lineCounter++;
 	for (unsigned int i = lineCounter; i < lineCounter + satelliteNumber; i++) {
-		cout << "Nous sommes à la ligne n° " << i << "\n";
 		getline(dataFile, line);
-		istringstream splitStream (line);
+		istringstream splitStream(line);
 		string splitString;
 		vector<string> contenuLigne;
 		while (getline(splitStream, splitString , ' ')) {
@@ -38,6 +33,49 @@ void Simulation::parseData(const char *file) {
 		Simulation::satelliteListe.push_back(s);
 	}
 	lineCounter += satelliteNumber;
-	cout << "Nous sommes à la ligne n° " << lineCounter << "\n";
+	getline(dataFile, line);
+	const unsigned int collectionNumber = stoi(line);
+	lineCounter++;
+	for (int j = 0; j < collectionNumber; j++) {
+		getline(dataFile, line);
+		istringstream splitStream(line);
+		string splitString;
+		vector<string> contenuLigne;
+		while (getline(splitStream, splitString, ' ')) {
+			contenuLigne.push_back(splitString);
+		}
+		int nbPoints = stoi(contenuLigne.at(0));
+		int nbPhotos = stoi(contenuLigne.at(1));
+		int nbIntervalles = stoi(contenuLigne.at(2));
+		Collection c(nbPoints, nbPhotos, nbIntervalles);
+		lineCounter++;
+		for (unsigned int i = lineCounter; i < lineCounter + nbPhotos; i++) {
+			getline(dataFile, line);
+			istringstream splitStream(line);
+			string splitString;
+			vector<string> contenuLigne;
+			while (getline(splitStream, splitString, ' ')) {
+				contenuLigne.push_back(splitString);
+			}
+			int latitudePhoto = stoi(contenuLigne.at(0));
+			int longitudePhoto = stoi(contenuLigne.at(1));
+			c.addImage(latitudePhoto, longitudePhoto);
+		}
+		lineCounter += nbPhotos;
+		for (unsigned int i = lineCounter; i < lineCounter + nbIntervalles; i++) {
+			getline(dataFile, line);
+			istringstream splitStream(line);
+			string splitString;
+			vector<string> contenuLigne;
+			while (getline(splitStream, splitString, ' ')) {
+				contenuLigne.push_back(splitString);
+			}
+			int debutIntervalle = stoi(contenuLigne.at(0));
+			int finIntervalle = stoi(contenuLigne.at(1));
+			c.addIntervalle(debutIntervalle, finIntervalle);
+		}
+		lineCounter += nbIntervalles;
+		Simulation::collectionListe.push_back(c);
+	}
 }
 
