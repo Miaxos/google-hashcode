@@ -7,8 +7,12 @@ class Simulation {
 	private: 
 		std::vector<Satellite> satelliteListe;
 		std::vector<Collection> collectionListe;
+        std::vector<Photo*> m_photos;
 		int nombreTour;
 
 	public: 
 		void parseData(const char *file);
+
+        // trie les photos selon leur latitude puis leur longitude
+        void trierPhotos();
 };

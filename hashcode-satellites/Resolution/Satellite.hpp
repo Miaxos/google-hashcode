@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ostream>
+#include <vector>
 
 class Photo;
 
@@ -23,6 +24,10 @@ class Satellite
 
         // Indique que le satellite prend la photo donnée au tour donné
         void prendrePhoto(Photo& photo, unsigned int tour);
+
+        // Recherche la prochaine photo qui peut être prise et indique dans combien de tours elle peut être prise
+        // Pré-condition : les photos sont triées
+        std::pair<Photo*, unsigned int> prochainePhoto(const std::vector<Photo*>& photos);
 
         static const int VIT_LONG = -15; // vitesse du satellite en longitude, correspondant à la vitesse de rotation de la Terre
 

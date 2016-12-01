@@ -11,6 +11,16 @@ class Photo
         // Constructeur
         Photo(int latitude = 0, int longitude = 0);
 
+        inline int getLatitude() const
+        {
+            return m_latitude;
+        }
+
+        inline int getLongitude() const
+        {
+            return m_longitude;
+        }
+
     private:
 
         int m_latitude; // position de la photo en latitude

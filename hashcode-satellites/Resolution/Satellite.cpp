@@ -1,6 +1,7 @@
 #include "Satellite.hpp"
 #include "ArgumentInvalideException.hpp"
 #include "Photo.hpp"
+#include <algorithm>
 
 unsigned int Satellite::m_idCount = 0; // le premier satellite créé aura l'id 0
 
@@ -136,4 +137,100 @@ void Satellite::prendrePhoto(Photo& photo, unsigned int tour)
         photo.m_tourPhoto = tour;
 		photo.m_photoPrise = true;
     }
+}
+
+std::pair<Photo*, unsigned int> Satellite::prochainePhoto(const std::vector<Photo*>& photos)
+{
+    std::pair<Photo*, unsigned int> prochain(nullptr, 0);
+
+    unsigned int tour = 0;
+    int orientLatMin = m_orientLat, orientLatMax = m_orientLat;
+    int orientLongMin = m_orientLong, orientLongMax = m_orientLong;
+    int latitude = m_latitude, longitude = m_longitude;
+    int vitLat = m_vitLat;
+
+    bool trouve = false;
+
+    while(!trouve)
+    {
+        tour++;
+
+        // calcul des intervalles pour les orientations
+        auto majOrient = [this] (int& orient, char signe) -> void
+        {
+            int orientMaxTotal = m_orientMaxTotal * signe;
+
+            if(orient != orientMaxTotal)
+            {
+                orient += m_orientMaxTour * signe;
+                if(orient < orientMaxTotal)
+                {
+                    orient = orientMaxTotal;
+                }
+            }
+        };
+
+        majOrient(orientLatMin, -1);
+        majOrient(orientLatMax, 1);
+        majOrient(orientLongMin, -1);
+        majOrient(orientLongMax, 1);
+
+        // répétition avec la méthode Satellite::tourSuivant, il faudrait optimiser ou supprimer une des deux
+
+        // Déplacement
+
+        int latTemp = latitude + vitLat;
+
+        // si on reste entre -90 et +90 degrés
+        if(latTemp >= -324000 && latTemp <= 324000)
+        {
+            latitude = latTemp;
+            longitude += VIT_LONG;
+        }
+        // si on passe derrière un des pôles
+        else
+        {
+            longitude = -648000 + (longitude + VIT_LONG);
+            vitLat *= -1;
+
+            // si on passe derrière le pôle nord
+            if(latTemp > 324000)
+            {
+                latitude = 648000 - latTemp;
+            }
+            // si on passe derrière le pôle sud
+            else
+            {
+                latitude = -648000 - latTemp;
+            }
+        }
+
+        std::pair<int, int> intervalleLat(latitude + orientLatMin, latitude + orientLatMax);
+        std::pair<int, int> intervalleLong(longitude + orientLongMin, latitude + orientLongMax);
+
+        // recherche dichotomique
+        int debut = 0, fin = photos.size() - 1, milieu;
+
+        while(!trouve && debut <= fin)
+        {
+            milieu = (debut + fin) / 2;
+            if(photos[milieu]->getLatitude() >= intervalleLat.first && photos[milieu]->getLatitude() <= intervalleLat.second
+                && photos[milieu]->getLongitude() >= intervalleLong.first && photos[milieu]->getLongitude() <= intervalleLong.second)
+            {
+                trouve = true;
+                prochain.first = photos[milieu];
+                prochain.second = tour;
+            }
+            else if(intervalleLat.first > photos[milieu]->getLatitude())
+            {
+                debut = milieu + 1;
+            }
+            else
+            {
+                fin = milieu - 1;
+            }
+        }
+    }
+
+    return prochain;
 }

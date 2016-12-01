@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <algorithm>
 using namespace std;
 
 void Simulation::parseData(const char *file) {
@@ -15,5 +16,18 @@ void Simulation::parseData(const char *file) {
 			lineCounter++;
 		}
 	}
+}
+
+void Simulation::trierPhotos()
+{
+    std::sort(m_photos.begin(), m_photos.end(), [] (const Photo* a, const Photo* b)
+    {
+        if(a->getLatitude() == b->getLatitude())
+        {
+            return b->getLongitude() < a->getLongitude();
+        }
+
+        return b->getLatitude() < a->getLatitude();
+    });
 }
 
