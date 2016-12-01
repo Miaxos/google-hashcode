@@ -7,7 +7,7 @@ class Simulation {
 	private: 
 		std::vector<Satellite> satelliteListe;
 		std::vector<Collection> collectionListe;
-		int nombreTour;
+		unsigned int nombreTour;
 
 	public: 
 		void parseData(const char *file);
