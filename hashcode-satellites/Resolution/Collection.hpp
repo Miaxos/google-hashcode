@@ -22,6 +22,11 @@ class Collection
         // Ajoute un intervalle de temps à la collection
         void addIntervalle(unsigned int debut, unsigned int fin);
 
+        inline std::vector<Photo>& getImages()
+        {
+            return m_images;
+        }
+
     private:
 
         unsigned int m_points;

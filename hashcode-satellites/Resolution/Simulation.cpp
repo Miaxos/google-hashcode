@@ -15,6 +15,8 @@ void Simulation::parseData(const char *file) {
 	Simulation::nombreTour = stoi(line);
 	lineCounter++;
 	getline(dataFile, line);
+
+    // Ajout des satellites
 	const unsigned int satelliteNumber = stoi(line);
 	lineCounter++;
 	for (unsigned int i = lineCounter; i < lineCounter + satelliteNumber; i++) {
@@ -34,6 +36,8 @@ void Simulation::parseData(const char *file) {
 		Simulation::satelliteListe.push_back(s);
 	}
 	lineCounter += satelliteNumber;
+
+    // Ajout des collections
 	getline(dataFile, line);
 	const unsigned int collectionNumber = stoi(line);
 	lineCounter++;
@@ -50,6 +54,8 @@ void Simulation::parseData(const char *file) {
 		int nbIntervalles = stoi(contenuLigne.at(2));
 		Collection c(nbPoints, nbPhotos, nbIntervalles);
 		lineCounter++;
+
+        // Ajout des photos
 		for (unsigned int i = lineCounter; i < lineCounter + nbPhotos; i++) {
 			getline(dataFile, line);
 			istringstream splitStream(line);
@@ -63,6 +69,8 @@ void Simulation::parseData(const char *file) {
 			c.addImage(latitudePhoto, longitudePhoto);
 		}
 		lineCounter += nbPhotos;
+
+        // Ajout des intervalles
 		for (unsigned int i = lineCounter; i < lineCounter + nbIntervalles; i++) {
 			getline(dataFile, line);
 			istringstream splitStream(line);
@@ -77,7 +85,16 @@ void Simulation::parseData(const char *file) {
 		}
 		lineCounter += nbIntervalles;
 		Simulation::collectionListe.push_back(c);
+
+        // Ajout de pointeurs vers toutes les photos dans la même liste pour un traitement plus rapide
+        std::vector<Photo> images = c.getImages();
+        for(Photo p : images)
+        {
+            m_photos.push_back(&p);
+        }
 	}
+
+    trierPhotos();
 }
 
 void Simulation::trierPhotos()
