@@ -164,7 +164,7 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
             if(orient != orientMaxTotal)
             {
                 orient += m_orientMaxTour * signe;
-                if(orient < orientMaxTotal)
+                if(abs(orient) > abs(orientMaxTotal))
                 {
                     orient = orientMaxTotal;
                 }
@@ -207,7 +207,7 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
         }
 
         std::pair<int, int> intervalleLat(latitude + orientLatMin, latitude + orientLatMax);
-        std::pair<int, int> intervalleLong(longitude + orientLongMin, latitude + orientLongMax);
+        std::pair<int, int> intervalleLong(longitude + orientLongMin, longitude + orientLongMax);
 
         // recherche dichotomique
         int debut = 0, fin = photos.size() - 1, milieu;

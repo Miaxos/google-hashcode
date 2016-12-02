@@ -88,7 +88,7 @@ void Simulation::parseData(const char *file) {
 
         // Ajout de pointeurs vers toutes les photos dans la même liste pour un traitement plus rapide
         std::vector<Photo> images = c.getImages();
-        for(Photo p : images)
+        for(Photo& p : images)
         {
             m_photos.push_back(&p);
         }
@@ -112,25 +112,34 @@ void Simulation::trierPhotos()
 
 void Simulation::resolutionSimple()
 {
-    for(Satellite s : satelliteListe)
+    for(Satellite& s : satelliteListe)
     {
-        EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, nombreTour);
         unsigned int tour = 0;
 
-        while(tour < prochain.tour && tour <= nombreTour)
+        while(tour <= nombreTour)
         {
-            tour++;
-            s.tourSuivant(prochain.orientLat - s.getOrientLat(), prochain.orientLong - s.getOrientLong());
-        }
+            EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, nombreTour);
 
-        if(tour <= nombreTour && prochain.photo != nullptr)
-        {
-            s.prendrePhoto(*prochain.photo, prochain.tour);
+            if(prochain.photo == nullptr)
+            {
+                break;
+            }
+
+            while(tour < prochain.tour && tour <= nombreTour)
+            {
+                tour++;
+                s.tourSuivant(prochain.orientLat - s.getOrientLat(), prochain.orientLong - s.getOrientLong());
+            }
+
+            if(tour <= nombreTour)
+            {
+                s.prendrePhoto(*prochain.photo, prochain.tour);
+            }
         }
     }
 
     std::cout << "Resultats de la resolution :" << std::endl;
-    for(Photo* p : m_photos)
+    for(const Photo* p : m_photos)
     {
         if(p->isPrise())
         {

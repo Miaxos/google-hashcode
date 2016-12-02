@@ -2,7 +2,9 @@
 #include "ArgumentInvalideException.hpp"
 
 Photo::Photo(int latitude, int longitude) :
-    m_photoPrise(false)
+    m_photoPrise(false),
+    m_latitude(latitude),
+    m_longitude(longitude)
 {
     if(latitude < -306000 || latitude > 306000)
     {

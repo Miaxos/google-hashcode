@@ -2,9 +2,7 @@
 #include "ArgumentInvalideException.hpp"
 
 Collection::Collection(unsigned int points, unsigned int nbImages, unsigned int nbIntervalles) :
-    m_points(points),
-    m_images(nbImages),
-    m_intervalles(nbIntervalles)
+    m_points(points)
 {
     if(points > 10000)
     {
@@ -20,6 +18,9 @@ Collection::Collection(unsigned int points, unsigned int nbImages, unsigned int 
     {
         throw ArgumentInvalideException("Le nombre d'intervalles de temps doit etre compris entre 1 et 100");
     }
+
+    m_images.reserve(nbImages);
+    m_intervalles.reserve(nbIntervalles);
 }
 
 void Collection::addIntervalle(unsigned int debut, unsigned int fin)
