@@ -139,9 +139,10 @@ void Satellite::prendrePhoto(Photo& photo, unsigned int tour)
     }
 }
 
-std::pair<Photo*, unsigned int> Satellite::prochainePhoto(const std::vector<Photo*>& photos)
+EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourMax)
 {
-    std::pair<Photo*, unsigned int> prochain(nullptr, 0);
+    EtatSatellitePhoto etat;
+    etat.photo = nullptr;
 
     unsigned int tour = 0;
     int orientLatMin = m_orientLat, orientLatMax = m_orientLat;
@@ -151,7 +152,7 @@ std::pair<Photo*, unsigned int> Satellite::prochainePhoto(const std::vector<Phot
 
     bool trouve = false;
 
-    while(!trouve)
+    while(!trouve && tour <= tourMax)
     {
         tour++;
 
@@ -218,8 +219,10 @@ std::pair<Photo*, unsigned int> Satellite::prochainePhoto(const std::vector<Phot
                 && photos[milieu]->getLongitude() >= intervalleLong.first && photos[milieu]->getLongitude() <= intervalleLong.second)
             {
                 trouve = true;
-                prochain.first = photos[milieu];
-                prochain.second = tour;
+                etat.photo = photos[milieu];
+                etat.tour = tour;
+                etat.orientLat = latitude - photos[milieu]->getLatitude();
+                etat.orientLong = longitude - photos[milieu]->getLongitude();
             }
             else if(intervalleLat.first > photos[milieu]->getLatitude())
             {
@@ -232,5 +235,5 @@ std::pair<Photo*, unsigned int> Satellite::prochainePhoto(const std::vector<Phot
         }
     }
 
-    return prochain;
+    return etat;
 }

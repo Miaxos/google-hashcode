@@ -110,3 +110,32 @@ void Simulation::trierPhotos()
     });
 }
 
+void Simulation::resolutionSimple()
+{
+    for(Satellite s : satelliteListe)
+    {
+        EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, nombreTour);
+        unsigned int tour = 0;
+
+        while(tour < prochain.tour && tour <= nombreTour)
+        {
+            tour++;
+            s.tourSuivant(prochain.orientLat - s.getOrientLat(), prochain.orientLong - s.getOrientLong());
+        }
+
+        if(tour <= nombreTour && prochain.photo != nullptr)
+        {
+            s.prendrePhoto(*prochain.photo, prochain.tour);
+        }
+    }
+
+    std::cout << "Resultats de la resolution :" << std::endl;
+    for(Photo* p : m_photos)
+    {
+        if(p->isPrise())
+        {
+            std::cout << "Photo (" << p->getLatitude() << " ; " << p->getLongitude() << ") prise au tour " << p->getTourPhoto() << " par le satellite " << p->getIdSatellitePhotographe() << std::endl;
+        }
+    }
+}
+

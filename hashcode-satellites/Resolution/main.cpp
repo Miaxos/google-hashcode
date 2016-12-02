@@ -7,8 +7,9 @@ int main()
 {
 	Simulation s;
 
-	s.parseData("final_round_2016.in/overlap.in");
+	s.parseData("final_round_2016.in/constellation.in");
 
+    /*
     try
     {
         Satellite s(176400, 7200, 120, 50, 500);
@@ -27,6 +28,9 @@ int main()
     {
         std::cerr << "Argument invalide pour le satellite : " << e.what() << std::endl;
     }
+    */
+
+    s.resolutionSimple();
 
     return EXIT_SUCCESS;
 }

@@ -15,4 +15,7 @@ class Simulation {
 
         // trie les photos selon leur latitude puis leur longitude
         void trierPhotos();
+
+        // résolution vraiment très simple et absolument pas optimisée
+        void resolutionSimple();
 };

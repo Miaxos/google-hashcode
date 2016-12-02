@@ -5,6 +5,14 @@
 
 class Photo;
 
+struct EtatSatellitePhoto
+{
+    Photo* photo;
+    unsigned int tour;
+    int orientLat;
+    int orientLong;
+};
+
 // Classe modélisant un satellite
 class Satellite
 {
@@ -27,7 +35,24 @@ class Satellite
 
         // Recherche la prochaine photo qui peut être prise et indique dans combien de tours elle peut être prise
         // Pré-condition : les photos sont triées
-        std::pair<Photo*, unsigned int> prochainePhoto(const std::vector<Photo*>& photos);
+        EtatSatellitePhoto prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourMax);
+
+
+        // Getters
+        inline int getOrientLat() const
+        {
+            return m_orientLat;
+        }
+
+        inline int getOrientLong() const
+        {
+            return m_orientLong;
+        }
+
+        inline unsigned int getId() const
+        {
+            return m_id;
+        }
 
         static const int VIT_LONG = -15; // vitesse du satellite en longitude, correspondant à la vitesse de rotation de la Terre
 

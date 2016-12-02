@@ -11,6 +11,8 @@ class Photo
         // Constructeur
         Photo(int latitude = 0, int longitude = 0);
 
+
+        // Getters
         inline int getLatitude() const
         {
             return m_latitude;
@@ -19,6 +21,21 @@ class Photo
         inline int getLongitude() const
         {
             return m_longitude;
+        }
+
+        inline bool isPrise() const
+        {
+            return m_photoPrise;
+        }
+
+        inline unsigned int getIdSatellitePhotographe() const
+        {
+            return m_idSatellitePhotographe;
+        }
+
+        inline unsigned int getTourPhoto() const
+        {
+            return m_tourPhoto;
         }
 
     private:
