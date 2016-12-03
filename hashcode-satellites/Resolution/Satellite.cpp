@@ -216,20 +216,48 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
         while(!trouve && debut <= fin)
         {
             milieu = (debut + fin) / 2;
-            if(!photos[milieu]->isPrise() && photos[milieu]->intervalleTempsOk(tourCourant) &&
-                photos[milieu]->intervallePositionOk(intervalleLat.first, intervalleLat.second, intervalleLong.first, intervalleLong.second))
+
+            // si la latitude est bonne, on est proche des photos recherchées
+            // dans notre cas, comme on a 2 données (latitude et longitude), il est plus simple de continuer avec une recherche séquentielle
+            if(photos[milieu]->intervalleLatitudeOk(intervalleLat.first, intervalleLat.second))
             {
-                trouve = true;
-                etat.photo = photos[milieu];
-                etat.tour = tourCourant;
-                etat.orientLat = latitude - photos[milieu]->getLatitude();
-                etat.orientLong = longitude - photos[milieu]->getLongitude();
+                int sauvMilieu = milieu;
+
+                // on regarde séquentiellement les latitudes proches qui sont toujours dans l'intervalle
+                for(int signe : {-1, 1})
+                {
+                    while(milieu >= debut && milieu <= fin &&
+                        photos[milieu]->intervalleLatitudeOk(intervalleLat.first, intervalleLat.second) &&
+                        (!photos[milieu]->intervalleLongitudeOk(intervalleLong.first, intervalleLong.second) ||
+                            photos[milieu]->isPrise() || !photos[milieu]->intervalleTempsOk(tourCourant)))
+                    {
+                        milieu += signe;
+                    }
+
+                    // si on a trouvé une photo, on s'arrête
+                    if(milieu >= debut && milieu <= fin &&
+                        photos[milieu]->intervallePositionOk(intervalleLat.first, intervalleLat.second, intervalleLong.first, intervalleLong.second) &&
+                        !photos[milieu]->isPrise() && photos[milieu]->intervalleTempsOk(tourCourant))
+                    {
+                        trouve = true;
+                        etat.photo = photos[milieu];
+                        etat.tour = tourCourant;
+                        etat.orientLat = latitude - photos[milieu]->getLatitude();
+                        etat.orientLong = longitude - photos[milieu]->getLongitude();
+
+                        return etat;
+                    }
+
+                    milieu = sauvMilieu;
+                }
             }
-            else if(intervalleLat.first < photos[milieu]->getLatitude())
+
+            // si on n'a rien trouvé, on continue la recherche dichotomique
+            if(!trouve && photos[milieu]->getLatitude() < intervalleLat.first)
             {
                 debut = milieu + 1;
             }
-            else
+            else if(!trouve)
             {
                 fin = milieu - 1;
             }

@@ -22,6 +22,12 @@ class Photo
         // Retourne true si l'image est positionnée dans le rectangle formé par les 4 paramètres
         bool intervallePositionOk(int latitudeMin, int latitudeMax, int longitudeMin, int longitudeMax);
 
+        // Retourne true si la latitude de l'image est comprise dans l'intervalle donné
+        bool intervalleLatitudeOk(int latitudeMin, int latitudeMax);
+
+        // Retourne true si la longitude de l'image est comprise dans l'intervalle donné
+        bool intervalleLongitudeOk(int longitudeMin, int longitudeMax);
+
 
         //Setters
         inline void setCollection(Collection* collection)

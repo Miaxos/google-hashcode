@@ -109,10 +109,10 @@ void Simulation::trierPhotos()
     {
         if(a->getLatitude() == b->getLatitude())
         {
-            return b->getLongitude() < a->getLongitude();
+            return b->getLongitude() > a->getLongitude();
         }
 
-        return b->getLatitude() < a->getLatitude();
+        return b->getLatitude() > a->getLatitude();
     });
 }
 
@@ -150,12 +150,15 @@ void Simulation::resolutionSimple()
     }
 
     std::cout << "Resultats de la resolution :" << std::endl;
+    unsigned int cpt(0);
     for(const Photo* p : m_photos)
     {
         if(p->isPrise())
         {
+            cpt++;
             std::cout << "Photo (" << p->getLatitude() << " ; " << p->getLongitude() << ") prise au tour " << p->getTourPhoto() << " par le satellite " << p->getIdSatellitePhotographe() << std::endl;
         }
     }
+    std::cout << cpt << " photos" << std::endl;
 }
 
