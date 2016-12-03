@@ -41,7 +41,7 @@ void Simulation::parseData(const char *file) {
 	getline(dataFile, line);
 	const unsigned int collectionNumber = stoi(line);
 	lineCounter++;
-	for (int j = 0; j < collectionNumber; j++) {
+	for (unsigned int j = 0; j < collectionNumber; j++) {
 		getline(dataFile, line);
 		istringstream splitStream(line);
 		string splitString;
@@ -103,6 +103,8 @@ void Simulation::parseData(const char *file) {
 
 void Simulation::trierPhotos()
 {
+    // on trie d'abord selon la latitude, puis selon la longitude
+
     std::sort(m_photos.begin(), m_photos.end(), [] (const Photo* a, const Photo* b)
     {
         if(a->getLatitude() == b->getLatitude())
@@ -116,26 +118,30 @@ void Simulation::trierPhotos()
 
 void Simulation::resolutionSimple()
 {
+    // on traite les satellite un par un indépendamment
     for(Satellite& s : satelliteListe)
     {
         unsigned int tour = 0;
 
         while(tour <= nombreTour)
         {
+            // on regarde où est la prochaine photo à prendre
             EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, tour, nombreTour);
-            int tourObjectif = prochain.tour;
+            unsigned int tourObjectif = prochain.tour;
 
             if(prochain.photo == nullptr)
             {
                 break;
             }
 
+            // on fait le déplacement nécessaire pour prendre la photo
             while(tour < tourObjectif && tour <= nombreTour)
             {
                 tour++;
                 s.tourSuivant(prochain.orientLat - s.getOrientLat(), prochain.orientLong - s.getOrientLong());
             }
 
+            // on prend la photo
             if(tour <= nombreTour)
             {
                 s.prendrePhoto(*prochain.photo, tour);
