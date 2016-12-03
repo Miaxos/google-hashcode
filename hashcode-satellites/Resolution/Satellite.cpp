@@ -205,18 +205,19 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
             }
         }
 
+        // calcul des intervalles de positions que la caméra peut atteindre
         std::pair<int, int> intervalleLat(latitude + orientLatMin, latitude + orientLatMax);
         std::pair<int, int> intervalleLong(longitude + orientLongMin, longitude + orientLongMax);
 
         // recherche dichotomique
+        // on cherche une photo qui n'est pas déjà prise, que l'on peut prendre au tour donné (intervalles de temps) et que la caméra peut atteindre
         int debut = 0, fin = photos.size() - 1, milieu;
 
         while(!trouve && debut <= fin)
         {
             milieu = (debut + fin) / 2;
             if(!photos[milieu]->isPrise() && photos[milieu]->intervalleTempsOk(tourCourant) &&
-                photos[milieu]->getLatitude() >= intervalleLat.first && photos[milieu]->getLatitude() <= intervalleLat.second
-                && photos[milieu]->getLongitude() >= intervalleLong.first && photos[milieu]->getLongitude() <= intervalleLong.second)
+                photos[milieu]->intervallePositionOk(intervalleLat.first, intervalleLat.second, intervalleLong.first, intervalleLong.second))
             {
                 trouve = true;
                 etat.photo = photos[milieu];

@@ -19,6 +19,9 @@ class Photo
         */
         bool intervalleTempsOk(unsigned int tour);
 
+        // Retourne true si l'image est positionnée dans le rectangle formé par les 4 paramètres
+        bool intervallePositionOk(int latitudeMin, int latitudeMax, int longitudeMin, int longitudeMax);
+
 
         //Setters
         inline void setCollection(Collection* collection)

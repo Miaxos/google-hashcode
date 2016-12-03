@@ -32,3 +32,8 @@ bool Photo::intervalleTempsOk(unsigned int tour)
 
     return false;
 }
+
+bool Photo::intervallePositionOk(int latitudeMin, int latitudeMax, int longitudeMin, int longitudeMax)
+{
+    return m_latitude >= latitudeMin && m_latitude <= latitudeMax && m_longitude >= longitudeMin && m_longitude <= longitudeMax;
+}
