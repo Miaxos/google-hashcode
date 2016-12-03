@@ -224,7 +224,7 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
                 etat.orientLat = latitude - photos[milieu]->getLatitude();
                 etat.orientLong = longitude - photos[milieu]->getLongitude();
             }
-            else if(intervalleLat.first > photos[milieu]->getLatitude())
+            else if(intervalleLat.first < photos[milieu]->getLatitude())
             {
                 debut = milieu + 1;
             }

@@ -85,14 +85,17 @@ void Simulation::parseData(const char *file) {
 		}
 		lineCounter += nbIntervalles;
 		Simulation::collectionListe.push_back(c);
+	}
 
-        // Ajout de pointeurs vers toutes les photos dans la même liste pour un traitement plus rapide
-        std::vector<Photo> images = c.getImages();
-        for(Photo& p : images)
+    // Ajout de pointeurs vers toutes les photos dans la même liste pour un traitement plus rapide
+    for(Collection& c : collectionListe)
+    {
+        std::vector<Photo>& photos = c.getImages();
+        for(Photo& p : photos)
         {
             m_photos.push_back(&p);
         }
-	}
+    }
 
     trierPhotos();
 }
@@ -119,13 +122,14 @@ void Simulation::resolutionSimple()
         while(tour <= nombreTour)
         {
             EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, nombreTour);
+            int tourObjectif = prochain.tour + tour;
 
             if(prochain.photo == nullptr)
             {
                 break;
             }
 
-            while(tour < prochain.tour && tour <= nombreTour)
+            while(tour < tourObjectif && tour <= nombreTour)
             {
                 tour++;
                 s.tourSuivant(prochain.orientLat - s.getOrientLat(), prochain.orientLong - s.getOrientLong());

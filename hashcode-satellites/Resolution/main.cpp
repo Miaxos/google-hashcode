@@ -7,7 +7,7 @@ int main()
 {
 	Simulation s;
 
-	s.parseData("final_round_2016.in/forever_alone.in");
+	s.parseData("final_round_2016.in/constellation.in");
 
     /*
     try
