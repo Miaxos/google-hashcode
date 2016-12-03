@@ -163,7 +163,7 @@ void Simulation::resolutionSimple()
     }
     std::cout << cpt << " photos" << std::endl;
 
-    unsigned int score = 0;
+    unsigned int score = 0, scoreMax = 0;
     for(Collection& c : collectionListe)
     {
         bool complet = true;
@@ -181,8 +181,10 @@ void Simulation::resolutionSimple()
         {
             score += c.getPoints();
         }
+        scoreMax += c.getPoints();
     }
 
-    std::cout << score << " points" << std::endl;
+    float pourcentage = ((float) score) / ((float) scoreMax);
+    std::cout << score << " points sur " << scoreMax << " max (" << pourcentage << "%)" << std::endl;
 }
 
