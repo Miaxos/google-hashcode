@@ -139,12 +139,11 @@ void Satellite::prendrePhoto(Photo& photo, unsigned int tour)
     }
 }
 
-EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourMax)
+EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourCourant, unsigned int tourMax)
 {
     EtatSatellitePhoto etat;
     etat.photo = nullptr;
 
-    unsigned int tour = 0;
     int orientLatMin = m_orientLat, orientLatMax = m_orientLat;
     int orientLongMin = m_orientLong, orientLongMax = m_orientLong;
     int latitude = m_latitude, longitude = m_longitude;
@@ -152,9 +151,9 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
 
     bool trouve = false;
 
-    while(!trouve && tour <= tourMax)
+    while(!trouve && tourCourant <= tourMax)
     {
-        tour++;
+        tourCourant++;
 
         // calcul des intervalles pour les orientations
         auto majOrient = [this] (int& orient, char signe) -> void
@@ -215,12 +214,13 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
         while(!trouve && debut <= fin)
         {
             milieu = (debut + fin) / 2;
-            if(photos[milieu]->getLatitude() >= intervalleLat.first && photos[milieu]->getLatitude() <= intervalleLat.second
+            if(!photos[milieu]->isPrise() && photos[milieu]->intervalleTempsOk(tourCourant) &&
+                photos[milieu]->getLatitude() >= intervalleLat.first && photos[milieu]->getLatitude() <= intervalleLat.second
                 && photos[milieu]->getLongitude() >= intervalleLong.first && photos[milieu]->getLongitude() <= intervalleLong.second)
             {
                 trouve = true;
                 etat.photo = photos[milieu];
-                etat.tour = tour;
+                etat.tour = tourCourant;
                 etat.orientLat = latitude - photos[milieu]->getLatitude();
                 etat.orientLong = longitude - photos[milieu]->getLongitude();
             }

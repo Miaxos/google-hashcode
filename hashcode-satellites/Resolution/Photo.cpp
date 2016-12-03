@@ -1,4 +1,5 @@
 #include "Photo.hpp"
+#include "Collection.hpp"
 #include "ArgumentInvalideException.hpp"
 
 Photo::Photo(int latitude, int longitude) :
@@ -15,4 +16,19 @@ Photo::Photo(int latitude, int longitude) :
     {
         throw ArgumentInvalideException("La longitude doit etre comprise entre -648000 et 647999");
     }
+}
+
+bool Photo::intervalleTempsOk(unsigned int tour)
+{
+    std::vector<Intervalle>& intervalles = m_collection->getIntervalles();
+
+    for(Intervalle& i : intervalles)
+    {
+        if(tour >= i.first && tour <= i.second)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }

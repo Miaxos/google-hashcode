@@ -94,6 +94,7 @@ void Simulation::parseData(const char *file) {
         for(Photo& p : photos)
         {
             m_photos.push_back(&p);
+            p.setCollection(&c);
         }
     }
 
@@ -121,8 +122,8 @@ void Simulation::resolutionSimple()
 
         while(tour <= nombreTour)
         {
-            EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, nombreTour);
-            int tourObjectif = prochain.tour + tour;
+            EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, tour, nombreTour);
+            int tourObjectif = prochain.tour;
 
             if(prochain.photo == nullptr)
             {
@@ -137,7 +138,7 @@ void Simulation::resolutionSimple()
 
             if(tour <= nombreTour)
             {
-                s.prendrePhoto(*prochain.photo, prochain.tour);
+                s.prendrePhoto(*prochain.photo, tour);
             }
         }
     }

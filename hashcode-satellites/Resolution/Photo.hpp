@@ -2,6 +2,8 @@
 
 #include "Satellite.hpp"
 
+class Collection;
+
 class Photo
 {
     friend void Satellite::prendrePhoto(Photo& photo, unsigned int tour);
@@ -10,6 +12,19 @@ class Photo
 
         // Constructeur
         Photo(int latitude = 0, int longitude = 0);
+
+        /*
+            Retourne true s'il est possible de prendre la photo au tour passé en paramètre
+            par rapport aux intervalles de temps définis pour la collection
+        */
+        bool intervalleTempsOk(unsigned int tour);
+
+
+        //Setters
+        inline void setCollection(Collection* collection)
+        {
+            m_collection = collection;
+        }
 
 
         // Getters
@@ -39,6 +54,8 @@ class Photo
         }
 
     private:
+
+        Collection* m_collection; // pointeur vers la collection dont la photo fait partie
 
         int m_latitude; // position de la photo en latitude
         int m_longitude; // position de la photo en longitude
