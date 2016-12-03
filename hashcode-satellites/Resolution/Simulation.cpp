@@ -149,6 +149,8 @@ void Simulation::resolutionSimple()
         }
     }
 
+
+    // informations pour les tests, à supprimer pour le livrable
     std::cout << "Resultats de la resolution :" << std::endl;
     unsigned int cpt(0);
     for(const Photo* p : m_photos)
@@ -160,5 +162,27 @@ void Simulation::resolutionSimple()
         }
     }
     std::cout << cpt << " photos" << std::endl;
+
+    unsigned int score = 0;
+    for(Collection& c : collectionListe)
+    {
+        bool complet = true;
+
+        for(const Photo& p : c.getImages())
+        {
+            if(!p.isPrise())
+            {
+                complet = false;
+                break;
+            }
+        }
+
+        if(complet)
+        {
+            score += c.getPoints();
+        }
+    }
+
+    std::cout << score << " points" << std::endl;
 }
 

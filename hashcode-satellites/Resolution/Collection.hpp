@@ -34,6 +34,11 @@ class Collection
             return m_intervalles;
         }
 
+        inline unsigned int getPoints() const
+        {
+            return m_points;
+        }
+
     private:
 
         unsigned int m_points;
