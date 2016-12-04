@@ -205,9 +205,21 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
             }
         }
 
+        // si on a fait le tour de la Terre
+        if(longitude < -648000)
+        {
+            longitude = 648000 + (longitude + 648000);
+        }
+
         // calcul des intervalles de positions que la caméra peut atteindre
         std::pair<int, int> intervalleLat(latitude + orientLatMin, latitude + orientLatMax);
         std::pair<int, int> intervalleLong(longitude + orientLongMin, longitude + orientLongMax);
+
+        // au-dessus de 85° nord ou sud (306000 ou -306000), on sait qu'il n'y aura pas de photo
+        if(intervalleLat.first >= 306000 || intervalleLat.second <= -306000)
+        {
+            continue;
+        }
 
         // recherche dichotomique
         // on cherche une photo qui n'est pas déjà prise, que l'on peut prendre au tour donné (intervalles de temps) et que la caméra peut atteindre

@@ -184,7 +184,7 @@ void Simulation::resolutionSimple()
         scoreMax += c.getPoints();
     }
 
-    float pourcentage = ((float) score) / ((float) scoreMax);
+    float pourcentage = ((float) score) / ((float) scoreMax) * 100.0f;
     std::cout << score << " points sur " << scoreMax << " max (" << pourcentage << "%)" << std::endl;
 }
 
