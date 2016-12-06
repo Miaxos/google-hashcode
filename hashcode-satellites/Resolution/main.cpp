@@ -3,11 +3,11 @@
 #include "ArgumentInvalideException.hpp"
 #include "Simulation.hpp"
 
-int main()
+int main(int argc, char *argv[])
 {
 	Simulation s;
 
-	s.parseData("final_round_2016.in/forever_alone.in");
+	s.parseData(argv[1]);
 
     /*
     try
@@ -31,7 +31,7 @@ int main()
     */
 
     s.resolutionSimple();
-	s.writeData("final_round_2016.out/forever_alone.out");
+	s.writeData(argv[2]);
 
     return EXIT_SUCCESS;
 }

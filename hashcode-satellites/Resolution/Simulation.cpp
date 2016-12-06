@@ -118,6 +118,7 @@ void Simulation::trierPhotos()
 
 void Simulation::resolutionSimple()
 {
+	nombrePhotosPrises = 0;
     // on traite les satellite un par un indépendamment
     for(Satellite& s : satelliteListe)
     {
@@ -145,47 +146,10 @@ void Simulation::resolutionSimple()
             if(tour <= nombreTour)
             {
                 s.prendrePhoto(*prochain.photo, tour);
+				nombrePhotosPrises++;
             }
         }
     }
-
-
-    // informations pour les tests, à supprimer pour le livrable
-    std::cout << "Resultats de la resolution :" << std::endl;
-    nombrePhotosPrises = 0;
-    for(const Photo* p : m_photos)
-    {
-        if(p->isPrise())
-        {
-            nombrePhotosPrises++;
-            std::cout << "Photo (" << p->getLatitude() << " ; " << p->getLongitude() << ") prise au tour " << p->getTourPhoto() << " par le satellite " << p->getIdSatellitePhotographe() << std::endl;
-        }
-    }
-    std::cout << nombrePhotosPrises << " photos" << std::endl;
-
-    unsigned int score = 0, scoreMax = 0;
-    for(Collection& c : collectionListe)
-    {
-        bool complet = true;
-
-        for(const Photo& p : c.getImages())
-        {
-            if(!p.isPrise())
-            {
-                complet = false;
-                break;
-            }
-        }
-
-        if(complet)
-        {
-            score += c.getPoints();
-        }
-        scoreMax += c.getPoints();
-    }
-
-    float pourcentage = ((float) score) / ((float) scoreMax) * 100.0f;
-    std::cout << score << " points sur " << scoreMax << " max (" << pourcentage << "%)" << std::endl;
 }
 
 void Simulation::writeData(const char *file) {
