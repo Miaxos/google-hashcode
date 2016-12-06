@@ -11,7 +11,12 @@ class Simulation {
 		unsigned int nombreTour;
 		unsigned int nombrePhotosPrises;
 
-	public: 
+	public:
+
+        // Constructeur
+        Simulation();
+
+
 		void parseData(const char *file);
 
         // trie les photos selon leur latitude puis leur longitude

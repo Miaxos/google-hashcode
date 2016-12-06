@@ -6,9 +6,21 @@
 #include <algorithm>
 using namespace std;
 
+Simulation::Simulation() :
+    nombreTour(0),
+    nombrePhotosPrises(0)
+{}
+
 void Simulation::parseData(const char *file) {
 	ifstream dataFile;
 	dataFile.open(file);
+
+    if(!dataFile.is_open())
+    {
+        cerr << "Erreur : impossible d'ouvrir le fichier " << file << " en lecture" << endl;
+        exit(EXIT_FAILURE);
+    }
+
 	string line;
 	unsigned int lineCounter=1;
 	getline(dataFile, line);
@@ -118,7 +130,6 @@ void Simulation::trierPhotos()
 
 void Simulation::resolutionSimple()
 {
-	nombrePhotosPrises = 0;
     // on traite les satellite un par un indépendamment
     for(Satellite& s : satelliteListe)
     {
@@ -168,7 +179,8 @@ void Simulation::writeData(const char *file) {
 	}
 	else
 	{
-		cout << "ERREUR: Fichier non disponible et/ou existant." << endl;
+		cerr << "ERREUR: Fichier non disponible et/ou existant." << endl;
+        exit(EXIT_FAILURE);
 	}
 }
 
