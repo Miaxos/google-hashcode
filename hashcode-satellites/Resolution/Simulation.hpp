@@ -9,6 +9,7 @@ class Simulation {
 		std::vector<Collection> collectionListe;
         std::vector<Photo*> m_photos;
 		unsigned int nombreTour;
+		unsigned int nombrePhotosPrises;
 
 	public: 
 		void parseData(const char *file);
@@ -18,4 +19,7 @@ class Simulation {
 
         // résolution vraiment très simple et absolument pas optimisée
         void resolutionSimple();
+
+		// écrit dans le fichier de sortie
+		void writeData(const char *file);
 };

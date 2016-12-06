@@ -152,16 +152,16 @@ void Simulation::resolutionSimple()
 
     // informations pour les tests, à supprimer pour le livrable
     std::cout << "Resultats de la resolution :" << std::endl;
-    unsigned int cpt(0);
+    nombrePhotosPrises = 0;
     for(const Photo* p : m_photos)
     {
         if(p->isPrise())
         {
-            cpt++;
+            nombrePhotosPrises++;
             std::cout << "Photo (" << p->getLatitude() << " ; " << p->getLongitude() << ") prise au tour " << p->getTourPhoto() << " par le satellite " << p->getIdSatellitePhotographe() << std::endl;
         }
     }
-    std::cout << cpt << " photos" << std::endl;
+    std::cout << nombrePhotosPrises << " photos" << std::endl;
 
     unsigned int score = 0, scoreMax = 0;
     for(Collection& c : collectionListe)
@@ -186,5 +186,25 @@ void Simulation::resolutionSimple()
 
     float pourcentage = ((float) score) / ((float) scoreMax) * 100.0f;
     std::cout << score << " points sur " << scoreMax << " max (" << pourcentage << "%)" << std::endl;
+}
+
+void Simulation::writeData(const char *file) {
+	ofstream dataFile(file);
+
+	if (dataFile)
+	{
+		dataFile << nombrePhotosPrises << std::endl;
+		for (const Photo* p : m_photos)
+		{
+			if (p->isPrise())
+			{
+				dataFile << p->getLatitude() << " " << p->getLongitude() << " " << p->getTourPhoto() << " " << p->getIdSatellitePhotographe() << std::endl;
+			}
+		}
+	}
+	else
+	{
+		cout << "ERREUR: Fichier non disponible et/ou existant." << endl;
+	}
 }
 

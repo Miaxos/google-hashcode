@@ -31,6 +31,7 @@ int main()
     */
 
     s.resolutionSimple();
+	s.writeData("final_round_2016.out/forever_alone.out");
 
     return EXIT_SUCCESS;
 }
