@@ -131,11 +131,15 @@ void Satellite::tourSuivant(int orientLat, int orientLong)
 
 void Satellite::prendrePhoto(Photo& photo, unsigned int tour)
 {
-    if(!photo.m_photoPrise)
+    if(photo.getLatitude() == m_latitude + m_orientLat && photo.getLongitude() == m_longitude + m_orientLong)
+
     {
-        photo.m_idSatellitePhotographe = m_id;
-        photo.m_tourPhoto = tour;
-		photo.m_photoPrise = true;
+        if(!photo.m_photoPrise)
+        {
+            photo.m_idSatellitePhotographe = m_id;
+            photo.m_tourPhoto = tour;
+            photo.m_photoPrise = true;
+        }
     }
 }
 
@@ -163,7 +167,7 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
             if(orient != orientMaxTotal)
             {
                 orient += m_orientMaxTour * signe;
-                if(abs(orient) > abs(orientMaxTotal))
+                if(abs(orient) > m_orientMaxTotal)
                 {
                     orient = orientMaxTotal;
                 }
@@ -254,8 +258,8 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
                         trouve = true;
                         etat.photo = photos[milieu];
                         etat.tour = tourCourant;
-                        etat.orientLat = latitude - photos[milieu]->getLatitude();
-                        etat.orientLong = longitude - photos[milieu]->getLongitude();
+                        etat.orientLat = photos[milieu]->getLatitude() - latitude;
+                        etat.orientLong = photos[milieu]->getLongitude() - longitude;
 
                         return etat;
                     }
