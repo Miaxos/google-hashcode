@@ -30,13 +30,8 @@ class Satellite
         */
         void tourSuivant(int orientLat, int orientLong);
 
-        // Indique que le satellite prend la photo donnée au tour donné
-        void prendrePhoto(Photo& photo, unsigned int tour);
-
-        // Recherche la prochaine photo qui peut être prise et indique dans combien de tours elle peut être prise
-        // Pré-condition : les photos sont triées
-        EtatSatellitePhoto prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourMax);
-
+        
+       
 
         // Getters
         inline int getOrientLat() const
