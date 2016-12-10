@@ -6,7 +6,11 @@ using namespace std;
 
 class Satellite
 {
+	friend std::ostream& operator<<(std::ostream& os, Satellite sat);
+
 public:
+
+	Satellite(int latitude, int longitude, int vitLat, unsigned int orientMaxTour, unsigned int orientMaxTotal);
 
 	//Position du satellite au tour i
 	vector<int> pos_tour(int i);
