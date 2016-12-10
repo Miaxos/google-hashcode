@@ -9,8 +9,14 @@ class Simulation {
 		std::vector<Collection> collectionListe;
         std::vector<Photo*> m_photos;
 		unsigned int nombreTour;
+		unsigned int nombrePhotosPrises;
 
-	public: 
+	public:
+
+        // Constructeur
+        Simulation();
+
+
 		void parseData(const char *file);
 
         // trie les photos selon leur latitude puis leur longitude
@@ -18,4 +24,7 @@ class Simulation {
 
         // résolution vraiment très simple et absolument pas optimisée
         void resolutionSimple();
+
+		// écrit dans le fichier de sortie
+		void writeData(const char *file);
 };

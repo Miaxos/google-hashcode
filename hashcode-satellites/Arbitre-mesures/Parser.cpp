@@ -45,8 +45,11 @@ void Parser::parseData_in(const char * file)
 	}
 	lineCounter += satelliteNumber;
 }
+<<<<<<< HEAD
 
 void Parser::parseData_out(const char * file)
 {
 	
 }
+=======
+>>>>>>> 66d650b1f2f0c98e5dbf4cfbe8f6216e3c026b49

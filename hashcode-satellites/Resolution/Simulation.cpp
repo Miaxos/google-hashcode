@@ -6,9 +6,21 @@
 #include <algorithm>
 using namespace std;
 
+Simulation::Simulation() :
+    nombreTour(0),
+    nombrePhotosPrises(0)
+{}
+
 void Simulation::parseData(const char *file) {
 	ifstream dataFile;
 	dataFile.open(file);
+
+    if(!dataFile.is_open())
+    {
+        cerr << "Erreur : impossible d'ouvrir le fichier " << file << " en lecture" << endl;
+        exit(EXIT_FAILURE);
+    }
+
 	string line;
 	unsigned int lineCounter=1;
 	getline(dataFile, line);
@@ -41,7 +53,7 @@ void Simulation::parseData(const char *file) {
 	getline(dataFile, line);
 	const unsigned int collectionNumber = stoi(line);
 	lineCounter++;
-	for (int j = 0; j < collectionNumber; j++) {
+	for (unsigned int j = 0; j < collectionNumber; j++) {
 		getline(dataFile, line);
 		istringstream splitStream(line);
 		string splitString;
@@ -94,6 +106,7 @@ void Simulation::parseData(const char *file) {
         for(Photo& p : photos)
         {
             m_photos.push_back(&p);
+            p.setCollection(&c);
         }
     }
 
@@ -102,53 +115,72 @@ void Simulation::parseData(const char *file) {
 
 void Simulation::trierPhotos()
 {
+    // on trie d'abord selon la latitude, puis selon la longitude
+
     std::sort(m_photos.begin(), m_photos.end(), [] (const Photo* a, const Photo* b)
     {
         if(a->getLatitude() == b->getLatitude())
         {
-            return b->getLongitude() < a->getLongitude();
+            return b->getLongitude() > a->getLongitude();
         }
 
-        return b->getLatitude() < a->getLatitude();
+        return b->getLatitude() > a->getLatitude();
     });
 }
 
 void Simulation::resolutionSimple()
 {
+    // on traite les satellite un par un indépendamment
     for(Satellite& s : satelliteListe)
     {
         unsigned int tour = 0;
 
         while(tour <= nombreTour)
         {
-            EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, nombreTour);
-            int tourObjectif = prochain.tour + tour;
+            // on regarde où est la prochaine photo à prendre
+            EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, tour, nombreTour);
+            unsigned int tourObjectif = prochain.tour;
 
             if(prochain.photo == nullptr)
             {
                 break;
             }
 
+            // on fait le déplacement nécessaire pour prendre la photo
             while(tour < tourObjectif && tour <= nombreTour)
             {
                 tour++;
                 s.tourSuivant(prochain.orientLat - s.getOrientLat(), prochain.orientLong - s.getOrientLong());
             }
 
+            // on prend la photo
             if(tour <= nombreTour)
             {
-                s.prendrePhoto(*prochain.photo, prochain.tour);
+                s.prendrePhoto(*prochain.photo, tour);
+				nombrePhotosPrises++;
             }
         }
     }
+}
 
-    std::cout << "Resultats de la resolution :" << std::endl;
-    for(const Photo* p : m_photos)
-    {
-        if(p->isPrise())
-        {
-            std::cout << "Photo (" << p->getLatitude() << " ; " << p->getLongitude() << ") prise au tour " << p->getTourPhoto() << " par le satellite " << p->getIdSatellitePhotographe() << std::endl;
-        }
-    }
+void Simulation::writeData(const char *file) {
+	ofstream dataFile(file);
+
+	if (dataFile)
+	{
+		dataFile << nombrePhotosPrises << std::endl;
+		for (const Photo* p : m_photos)
+		{
+			if (p->isPrise())
+			{
+				dataFile << p->getLatitude() << " " << p->getLongitude() << " " << p->getTourPhoto() << " " << p->getIdSatellitePhotographe() << std::endl;
+			}
+		}
+	}
+	else
+	{
+		cerr << "ERREUR: Fichier non disponible et/ou existant." << endl;
+        exit(EXIT_FAILURE);
+	}
 }
 

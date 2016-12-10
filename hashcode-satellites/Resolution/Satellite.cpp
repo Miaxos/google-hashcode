@@ -131,20 +131,23 @@ void Satellite::tourSuivant(int orientLat, int orientLong)
 
 void Satellite::prendrePhoto(Photo& photo, unsigned int tour)
 {
-    if(!photo.m_photoPrise)
+    if(photo.getLatitude() == m_latitude + m_orientLat && photo.getLongitude() == m_longitude + m_orientLong)
+
     {
-        photo.m_idSatellitePhotographe = m_id;
-        photo.m_tourPhoto = tour;
-		photo.m_photoPrise = true;
+        if(!photo.m_photoPrise)
+        {
+            photo.m_idSatellitePhotographe = m_id;
+            photo.m_tourPhoto = tour;
+            photo.m_photoPrise = true;
+        }
     }
 }
 
-EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourMax)
+EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourCourant, unsigned int tourMax)
 {
     EtatSatellitePhoto etat;
     etat.photo = nullptr;
 
-    unsigned int tour = 0;
     int orientLatMin = m_orientLat, orientLatMax = m_orientLat;
     int orientLongMin = m_orientLong, orientLongMax = m_orientLong;
     int latitude = m_latitude, longitude = m_longitude;
@@ -152,9 +155,9 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
 
     bool trouve = false;
 
-    while(!trouve && tour <= tourMax)
+    while(!trouve && tourCourant <= tourMax)
     {
-        tour++;
+        tourCourant++;
 
         // calcul des intervalles pour les orientations
         auto majOrient = [this] (int& orient, char signe) -> void
@@ -164,7 +167,7 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
             if(orient != orientMaxTotal)
             {
                 orient += m_orientMaxTour * signe;
-                if(abs(orient) > abs(orientMaxTotal))
+                if(abs(orient) > m_orientMaxTotal)
                 {
                     orient = orientMaxTotal;
                 }
@@ -206,29 +209,71 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
             }
         }
 
+        // si on a fait le tour de la Terre
+        if(longitude < -648000)
+        {
+            longitude = 648000 + (longitude + 648000);
+        }
+
+        // calcul des intervalles de positions que la caméra peut atteindre
         std::pair<int, int> intervalleLat(latitude + orientLatMin, latitude + orientLatMax);
         std::pair<int, int> intervalleLong(longitude + orientLongMin, longitude + orientLongMax);
 
+        // au-dessus de 85° nord ou sud (306000 ou -306000), on sait qu'il n'y aura pas de photo
+        if(intervalleLat.first >= 306000 || intervalleLat.second <= -306000)
+        {
+            continue;
+        }
+
         // recherche dichotomique
+        // on cherche une photo qui n'est pas déjà prise, que l'on peut prendre au tour donné (intervalles de temps) et que la caméra peut atteindre
         int debut = 0, fin = photos.size() - 1, milieu;
 
         while(!trouve && debut <= fin)
         {
             milieu = (debut + fin) / 2;
-            if(photos[milieu]->getLatitude() >= intervalleLat.first && photos[milieu]->getLatitude() <= intervalleLat.second
-                && photos[milieu]->getLongitude() >= intervalleLong.first && photos[milieu]->getLongitude() <= intervalleLong.second)
+
+            // si la latitude est bonne, on est proche des photos recherchées
+            // dans notre cas, comme on a 2 données (latitude et longitude), il est plus simple de continuer avec une recherche séquentielle
+            if(photos[milieu]->intervalleLatitudeOk(intervalleLat.first, intervalleLat.second))
             {
-                trouve = true;
-                etat.photo = photos[milieu];
-                etat.tour = tour;
-                etat.orientLat = latitude - photos[milieu]->getLatitude();
-                etat.orientLong = longitude - photos[milieu]->getLongitude();
+                int sauvMilieu = milieu;
+
+                // on regarde séquentiellement les latitudes proches qui sont toujours dans l'intervalle
+                for(int signe : {-1, 1})
+                {
+                    while(milieu >= debut && milieu <= fin &&
+                        photos[milieu]->intervalleLatitudeOk(intervalleLat.first, intervalleLat.second) &&
+                        (!photos[milieu]->intervalleLongitudeOk(intervalleLong.first, intervalleLong.second) ||
+                            photos[milieu]->isPrise() || !photos[milieu]->intervalleTempsOk(tourCourant)))
+                    {
+                        milieu += signe;
+                    }
+
+                    // si on a trouvé une photo, on s'arrête
+                    if(milieu >= debut && milieu <= fin &&
+                        photos[milieu]->intervallePositionOk(intervalleLat.first, intervalleLat.second, intervalleLong.first, intervalleLong.second) &&
+                        !photos[milieu]->isPrise() && photos[milieu]->intervalleTempsOk(tourCourant))
+                    {
+                        trouve = true;
+                        etat.photo = photos[milieu];
+                        etat.tour = tourCourant;
+                        etat.orientLat = photos[milieu]->getLatitude() - latitude;
+                        etat.orientLong = photos[milieu]->getLongitude() - longitude;
+
+                        return etat;
+                    }
+
+                    milieu = sauvMilieu;
+                }
             }
-            else if(intervalleLat.first < photos[milieu]->getLatitude())
+
+            // si on n'a rien trouvé, on continue la recherche dichotomique
+            if(!trouve && photos[milieu]->getLatitude() < intervalleLat.first)
             {
                 debut = milieu + 1;
             }
-            else
+            else if(!trouve)
             {
                 fin = milieu - 1;
             }
