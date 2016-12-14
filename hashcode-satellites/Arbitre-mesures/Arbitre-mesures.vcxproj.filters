@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Satellite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Collection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -30,9 +27,18 @@
     <ClInclude Include="PicTaken.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SatelliteArbitre.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbitre.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SatelliteArbitre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
