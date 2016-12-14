@@ -1,0 +1,1 @@
+./clean.sh ; pdflatex -shell-escape rapport.tex ; makeglossaries rapport ; bibtex rapport; pdflatex -shell-escape rapport.tex ; pdflatex -shell-escape rapport.tex ; ./clean.sh ; open -a "Preview.app" rapport.pdf

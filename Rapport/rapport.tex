@@ -9,6 +9,10 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}% http://ctan.org/pkg/xcolor
+
+
 
 \pagestyle{fancy}
 \renewcommand{\footrulewidth}{1pt}
@@ -48,5 +52,30 @@
 			Le principe est donc d'avoir une liste de toutes les images, que l'on trie selon leur latitude puis selon leur longitude. A partir de là, on peut faire une recherche dichotomique sur la latitude, ce qui permet d'arriver rapidement à une image dont la latitude est dans la fenêtre de la caméra. On sait alors que les images qui se situent dans la fenêtre, si elles existent, sont classées autour de celle que l'on vient de trouver. On fait alors une recherche séquentielle sur toutes ces images proches jusqu'à en trouver une qui est dans la fenêtre, ou jusqu'à ce que l'on sorte de celle-ci.
 			
 			Il n'est cependant pas possible d'effectuer une recherche dichotomique pour trouver directement l'image de manière systématique avec ce principe. En effet, dans certains cas la recherche dichotomique peut supprimer de son espace de recherche des images dont la latitude est dans la fenêtre. Par exemple, si on arrive sur une image dont la latitude est correcte mais la longitude est trop grande, la recherche dichotomique considère que toutes les images dont la latitude est supérieure à celle-ci ne sont pas dans la fenêtre. Or c'est faux dans la plupart des cas : on peut avoir une image dont la latitude est supérieure mais toujours dans la fenêtre et dont la longitude est aussi dans la fenêtre.
+
+		\subsection{Résultats} % (fold)
+		\label{sub:résultats}
+
+		\footnotesize
+		\hspace*{-1cm}\noindent\begin{tabularx}{16cm}{|l|p{4cm}|X|p{2cm}|r|}
+			\hline
+			 & \textbf{Jeu de donnée} & \textbf{Temps} & \textbf{Score} & \textbf{Pourcentage} \\
+			\hline
+		    \cellcolor{blue!25} Algorithme 1 & & & & \\
+		    \cellcolor{blue!25} & forever\_alone & X secondes & 44000 & 35.5 \\
+		    \cellcolor{blue!25} & constellation & X secondes & 44000 & 35.5 \\
+		    \cellcolor{blue!25} & overlap & X secondes & 44000 & 35.5 \\
+		    \cellcolor{blue!25} & weekdend & X secondes & 44000 & 35.5 \\
+		    \hline
+		    \cellcolor{red!25} Meilleurs résultats & & & & \\
+		    \cellcolor{red!25} & forever\_alone & X secondes & 44000 & 35.5 \\
+		    \cellcolor{red!25} & constellation & X secondes & 44000 & 35.5 \\
+		    \cellcolor{red!25} & overlap & X secondes & 44000 & 35.5 \\
+		    \cellcolor{red!25} & weekdend & X secondes & 44000 & 35.5 \\
+		    \hline
+		\end{tabularx}
+		\normalsize
+				
+		% subsection résultats (end)
 
 \end{document}
