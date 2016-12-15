@@ -40,7 +40,7 @@ void Parser::parseData_in(const char * file)
 		int vitLatSat = stoi(contenuLigne.at(2));
 		int orientMaxTourSat = stoi(contenuLigne.at(3));
 		int orientMaxTotalSat = stoi(contenuLigne.at(4));
-		SatelliteA s(latitudeSat, longitudeSat, vitLatSat, orientMaxTourSat, orientMaxTotalSat);
+		SatelliteA s(satelliteNumber,latitudeSat, longitudeSat, vitLatSat, orientMaxTourSat, orientMaxTotalSat);
 		Parser::list_satellite_in[s.getId()]=s;
 	}
 	lineCounter += satelliteNumber;

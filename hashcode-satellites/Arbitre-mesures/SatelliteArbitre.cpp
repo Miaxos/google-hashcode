@@ -3,6 +3,7 @@
 
 
 SatelliteA::SatelliteA():
+	m_id(0),
 	m_latitude(0),
 	m_longitude(0),
 	m_vitLat(0),
@@ -14,7 +15,7 @@ SatelliteA::SatelliteA():
 {
 }
 
-SatelliteA::SatelliteA(int latitude, int longitude, int vitLat, unsigned int orientMaxTour, unsigned int orientMaxTotal) :
+SatelliteA::SatelliteA(unsigned int id_sat,int latitude, int longitude, int vitLat, unsigned int orientMaxTour, unsigned int orientMaxTotal) :
 	m_latitude(latitude),
 	m_longitude(longitude),
 	m_vitLat(vitLat),
@@ -22,7 +23,8 @@ SatelliteA::SatelliteA(int latitude, int longitude, int vitLat, unsigned int ori
 	m_orientMaxTotal(orientMaxTotal),
 	m_lastOrientLat(0),
 	m_lastOrientLong(0),
-	m_lastTurnPic(0)
+	m_lastTurnPic(0),
+	m_id(id_sat)
 {
 }
 
@@ -33,20 +35,23 @@ vector<int>& SatelliteA::pos_tour(int i)
 	
 	if (i == 0)
 	{
-		pos.emplace_back(SatelliteA::m_latitude, SatelliteA::m_longitude );
+		pos.push_back(SatelliteA::m_latitude);
+		pos.push_back(SatelliteA::m_longitude);
 		return (pos);
 	}
 	else 
 	{
 		if (SatelliteA::m_latitude + SatelliteA::m_vitLat*(i - 1) <= 324000 || SatelliteA::m_latitude + SatelliteA::m_vitLat*(i - 1) >= 324000)
 		{
-			pos.emplace_back(SatelliteA::m_latitude + (i - 1)*SatelliteA::m_vitLat,SatelliteA::m_longitude - 15 * (i - 1) );
+			pos.push_back(SatelliteA::m_latitude + (i - 1)*SatelliteA::m_vitLat);
+			pos.push_back(SatelliteA::m_longitude - 15 * (i - 1));
 			return(pos);
 		}
 		else
 		{
 			int lat = -(SatelliteA::m_latitude + (i - 1)*SatelliteA::m_vitLat) % 324000;
-			pos.emplace_back(lat,SatelliteA::m_longitude - 15 * (i - 1) );
+			pos.push_back(lat);
+			pos.push_back(SatelliteA::m_longitude - 15 * (i - 1));
 			return(pos);
 		}
 	}
@@ -69,7 +74,8 @@ vector<int>& SatelliteA::orientLat_i(int i)
 		minlat = -m_orientMaxTotal;
 	}
 
-	rangeLat.emplace_back(minlat,maxlat );
+	rangeLat.push_back(minlat);
+	rangeLat.push_back(maxlat);
 	return(rangeLat);
 
 }
@@ -91,7 +97,8 @@ vector<int>& SatelliteA::orientLong_i(int i)
 		minlong = -m_orientMaxTotal;
 	}
 
-	rangeLong.emplace_back( minlong,maxlong );
+	rangeLong.push_back( minlong);
+	rangeLong.push_back(maxlong);
 	return(rangeLong);
 }
 
@@ -102,7 +109,9 @@ vector<int>& SatelliteA::rangeCamLat_i(int i)
 	vector<int>& rangeLat = orientLat_i(i) ;
 	vector<int> rangeCam;
 
-	rangeCam.emplace_back( _pos_tour.at(0) + rangeLat.at(0)  ,   _pos_tour.at(0) + rangeLat.at(1) );
+	rangeCam.push_back( _pos_tour.at(0) + rangeLat.at(0) );
+	rangeCam.push_back( _pos_tour.at(0) + rangeLat.at(1) );
+
 
 	return(rangeCam);
 
@@ -124,4 +133,5 @@ vector<int>& SatelliteA::rangeCamLong_i(int i)
 std::ostream & operator<<(std::ostream & os, SatelliteA sat)
 {
 	os << "Satellite " << sat.getId() << endl;
+	return os;
 }

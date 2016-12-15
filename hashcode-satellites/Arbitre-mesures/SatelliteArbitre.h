@@ -12,7 +12,7 @@ class SatelliteA
 public:
 
 	SatelliteA();
-	SatelliteA(int latitude, int longitude, int vitLat, unsigned int orientMaxTour, unsigned int orientMaxTotal);
+	SatelliteA(unsigned int id_sat,int latitude, int longitude, int vitLat, unsigned int orientMaxTour, unsigned int orientMaxTotal);
 
 	//Position du satellite au tour i
 	vector<int>& pos_tour(int i);
