@@ -22,3 +22,15 @@ bool Arbitre::pictureValid(PicTaken pic)
 
 	return true;
 }
+
+bool Arbitre::list_valid()
+{
+	for (std::vector<PicTaken>::iterator it = list_pictaken.begin(); it != list_pictaken.end(); it++)
+	{
+		if (pictureValid(*it) == false)
+		{
+			return false;
+		}
+	}
+	return true;
+}

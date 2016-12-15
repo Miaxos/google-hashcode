@@ -3,6 +3,7 @@
 #include "PicTaken.h"
 #include "SatelliteArbitre.h"
 #include <map>
+#include <iterator>
 
 class Arbitre
 {
@@ -13,6 +14,8 @@ private:
 public:
 	Arbitre(std::map<int,SatelliteA> _list_satellite_in, std::vector<PicTaken> _list_pictaken);
 	bool pictureValid(PicTaken pic);
+
+	bool list_valid();
 
 
 };

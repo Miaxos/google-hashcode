@@ -154,7 +154,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arbitre.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="PicTaken.cpp" />
     <ClCompile Include="SatelliteArbitre.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

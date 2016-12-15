@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-    if(argc != 3)
+    /*if(argc != 3)
     {
         std::cerr << "Erreur : nombre de parametres invalide" << std::endl;
         return EXIT_FAILURE;
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
 	s.parseData(argv[1]);
     s.resolutionSimple();
-	s.writeData(argv[2]);
+	s.writeData(argv[2]);*/
 
     return EXIT_SUCCESS;
 }
