@@ -6,10 +6,17 @@
 
 using namespace std;
 
+Parser::Parser()
+{
+	list_satellite_in.clear();
+	list_pictaken.clear();
+}
+
 void Parser::parseData_in(const char * file)
 {
 	ifstream dataFile;
 	dataFile.open(file);
+	std::cout << file << std::endl;
 
 	if (!dataFile.is_open())
 	{

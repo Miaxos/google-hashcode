@@ -4,6 +4,7 @@ Arbitre::Arbitre(std::map<int,SatelliteA> _list_satellite_in, std::vector<PicTak
 	list_satellite_in(_list_satellite_in), 
 	list_pictaken(_list_pictaken)
 {
+	std::sort(list_pictaken.begin(), list_pictaken.end());
 }
 
 bool Arbitre::pictureValid(PicTaken pic)

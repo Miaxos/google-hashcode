@@ -1,11 +1,30 @@
 #include <iostream>
-#include "SatelliteArbitre.h"
+#include "Parser.h"
+#include "Arbitre.h"
+#include <Windows.h>
+#include <string>
 
-int main()
+int main(int argc, char *argv[])
 {
 	std::cout << "Hello world" << std::endl;
 
-	SatelliteA sat;
-	std::cout << sat << endl;
-	return 0;
+	std::cout << argv[0] << endl;
+
+	if (argc != 3)
+	{
+		std::cerr << "Erreur : nombre de parametres invalide" << std::endl;
+		return EXIT_FAILURE;
+	}
+
+	
+
+	Parser parser;
+	parser.parseData_in(argv[1]);
+	parser.parseData_out(argv[2]);
+	Arbitre arb(parser.getList_satellite_in(), parser.getList_pictaken());
+	if (arb.list_valid() == false)
+	{
+		return EXIT_FAILURE;
+	}
+	return EXIT_SUCCESS;
 }

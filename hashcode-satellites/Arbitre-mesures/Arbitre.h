@@ -2,6 +2,7 @@
 #include "Parser.h"
 #include "PicTaken.h"
 #include "SatelliteArbitre.h"
+#include <algorithm>
 #include <map>
 #include <iterator>
 
@@ -16,6 +17,9 @@ public:
 	bool pictureValid(PicTaken pic);
 
 	bool list_valid();
+
+
+	Parser parser;
 
 
 };

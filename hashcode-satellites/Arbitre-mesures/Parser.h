@@ -7,12 +7,15 @@
 class Parser
 {
 private:
-	std::map<int,SatelliteA> list_satellite_in;
+	std::map<int, SatelliteA> list_satellite_in;
 	std::vector<PicTaken> list_pictaken;
 	unsigned int nombreTour;
 	unsigned int nombrePicTaken;
 
 public:
+
+	Parser();
+
 	void parseData_in(const char *file);
 	void parseData_out(const char *file);
 
