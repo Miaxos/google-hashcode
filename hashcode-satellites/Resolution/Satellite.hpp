@@ -4,6 +4,7 @@
 #include <vector>
 
 class Photo;
+class Satellite;
 
 struct EtatSatellitePhoto
 {
@@ -11,6 +12,7 @@ struct EtatSatellitePhoto
     unsigned int tour;
     int orientLat;
     int orientLong;
+	Satellite* sat ;
 };
 
 // Classe modélisant un satellite
@@ -37,8 +39,8 @@ class Satellite
         // Pré-condition : les photos sont triées
         EtatSatellitePhoto prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourCourant, unsigned int tourMax);
 
-
         // Getters
+
         inline int getOrientLat() const
         {
             return m_orientLat;
@@ -65,7 +67,6 @@ class Satellite
         int m_latitude; // position du satellite en latitude
         int m_longitude; // position du satellite en longitude
         int m_vitLat; // vitesse du satellite en latitude
-
         int m_orientLat; // orientation en latitude
         int m_orientLong; // orientation en longitude
         int m_orientMaxTour; // changement d'orientation max par tour

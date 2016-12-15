@@ -62,6 +62,9 @@ class Photo
             return m_tourPhoto;
         }
 
+		inline Collection* getCollection() {
+			return m_collection;
+		}
     private:
 
         Collection* m_collection; // pointeur vers la collection dont la photo fait partie

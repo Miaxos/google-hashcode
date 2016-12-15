@@ -22,8 +22,14 @@ class Simulation {
         // trie les photos selon leur latitude puis leur longitude
         void trierPhotos();
 
+		//trie les collections selon leur ratio d'efficacité
+		void trierCollection();
+
         // résolution vraiment très simple et absolument pas optimisée
         void resolutionSimple();
+
+		// résolution utilisant un système de ratio
+		void resolutionRatio();
 
 		// écrit dans le fichier de sortie
 		void writeData(const char *file);

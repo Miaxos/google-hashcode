@@ -1,7 +1,9 @@
 #include "Satellite.hpp"
 #include "ArgumentInvalideException.hpp"
 #include "Photo.hpp"
+#include "Collection.hpp"
 #include <algorithm>
+#include <iostream>
 
 unsigned int Satellite::m_idCount = 0; // le premier satellite créé aura l'id 0
 
@@ -139,6 +141,7 @@ void Satellite::prendrePhoto(Photo& photo, unsigned int tour)
             photo.m_idSatellitePhotographe = m_id;
             photo.m_tourPhoto = tour;
             photo.m_photoPrise = true;
+			photo.m_collection->setNbPhotosRestantes();
         }
     }
 }
@@ -152,8 +155,9 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
     int orientLongMin = m_orientLong, orientLongMax = m_orientLong;
     int latitude = m_latitude, longitude = m_longitude;
     int vitLat = m_vitLat;
-
+	int seuil = 0;
     bool trouve = false;
+	const int tour = tourCourant;
 
     while(!trouve && tourCourant <= tourMax)
     {
@@ -225,59 +229,31 @@ EtatSatellitePhoto Satellite::prochainePhoto(const std::vector<Photo*>& photos, 
             continue;
         }
 
-        // recherche dichotomique
-        // on cherche une photo qui n'est pas déjà prise, que l'on peut prendre au tour donné (intervalles de temps) et que la caméra peut atteindre
-        int debut = 0, fin = photos.size() - 1, milieu;
+		while (!trouve) {
+			for (Photo* p : photos)
+			{
+				// si on a trouvé une photo, on s'arrête
+				if (p->intervallePositionOk(intervalleLat.first, intervalleLat.second, intervalleLong.first, intervalleLong.second) &&
+					!p->isPrise() && p->intervalleTempsOk(tourCourant) && seuil > tourCourant - tour)
+				{
+					trouve = true;
+					etat.photo = p;
+					etat.tour = tourCourant;
+					etat.orientLat = p->getLatitude() - latitude;
+					etat.orientLong = p->getLongitude() - longitude;
 
-        while(!trouve && debut <= fin)
-        {
-            milieu = (debut + fin) / 2;
-
-            // si la latitude est bonne, on est proche des photos recherchées
-            // dans notre cas, comme on a 2 données (latitude et longitude), il est plus simple de continuer avec une recherche séquentielle
-            if(photos[milieu]->intervalleLatitudeOk(intervalleLat.first, intervalleLat.second))
-            {
-                int sauvMilieu = milieu;
-
-                // on regarde séquentiellement les latitudes proches qui sont toujours dans l'intervalle
-                for(int signe : {-1, 1})
-                {
-                    while(milieu >= debut && milieu <= fin &&
-                        photos[milieu]->intervalleLatitudeOk(intervalleLat.first, intervalleLat.second) &&
-                        (!photos[milieu]->intervalleLongitudeOk(intervalleLong.first, intervalleLong.second) ||
-                            photos[milieu]->isPrise() || !photos[milieu]->intervalleTempsOk(tourCourant)))
-                    {
-                        milieu += signe;
-                    }
-
-                    // si on a trouvé une photo, on s'arrête
-                    if(milieu >= debut && milieu <= fin &&
-                        photos[milieu]->intervallePositionOk(intervalleLat.first, intervalleLat.second, intervalleLong.first, intervalleLong.second) &&
-                        !photos[milieu]->isPrise() && photos[milieu]->intervalleTempsOk(tourCourant))
-                    {
-                        trouve = true;
-                        etat.photo = photos[milieu];
-                        etat.tour = tourCourant;
-                        etat.orientLat = photos[milieu]->getLatitude() - latitude;
-                        etat.orientLong = photos[milieu]->getLongitude() - longitude;
-
-                        return etat;
-                    }
-
-                    milieu = sauvMilieu;
-                }
-            }
-
-            // si on n'a rien trouvé, on continue la recherche dichotomique
-            if(!trouve && photos[milieu]->getLatitude() < intervalleLat.first)
-            {
-                debut = milieu + 1;
-            }
-            else if(!trouve)
-            {
-                fin = milieu - 1;
-            }
-        }
+					return etat;
+				}
+			}
+			if (seuil < tourMax) {
+				seuil += 100;
+			}
+			else {
+				break;
+			}
+			
+		}
+		
     }
 
     return etat;

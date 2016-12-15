@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
 	Simulation s;
 
 	s.parseData(argv[1]);
-    s.resolutionSimple();
+    //s.resolutionSimple();
+	s.resolutionRatio();
 	s.writeData(argv[2]);
 
     return EXIT_SUCCESS;
