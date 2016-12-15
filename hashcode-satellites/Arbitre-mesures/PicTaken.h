@@ -3,7 +3,8 @@
 
 class PicTaken
 {
-	PicTaken& operator<(PicTaken pic);
+	
+
 private:
 	int latitude;
 	int longitude;
@@ -31,6 +32,12 @@ public:
 	inline int getLongitude()
 	{
 		return longitude;
+	}
+
+
+	inline bool operator<(PicTaken& pic)
+	{
+		return(turn < pic.getTurn());
 	}
 
 };

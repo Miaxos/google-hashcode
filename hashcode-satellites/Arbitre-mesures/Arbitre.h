@@ -1,5 +1,4 @@
 #pragma once
-#include "Parser.h"
 #include "PicTaken.h"
 #include "SatelliteArbitre.h"
 #include <algorithm>
@@ -17,9 +16,5 @@ public:
 	bool pictureValid(PicTaken pic);
 
 	bool list_valid();
-
-
-	Parser parser;
-
 
 };
