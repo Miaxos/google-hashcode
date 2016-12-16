@@ -16,7 +16,7 @@ class Simulation {
         // Constructeur
         Simulation();
 
-
+		// Ajoute les données dans les différentes classes du programme
 		void parseData(const char *file);
 
         // trie les photos selon leur latitude puis leur longitude

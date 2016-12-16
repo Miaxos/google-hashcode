@@ -4,7 +4,6 @@
 #include <vector>
 
 class Photo;
-class Satellite;
 
 struct EtatSatellitePhoto
 {
@@ -12,7 +11,6 @@ struct EtatSatellitePhoto
     unsigned int tour;
     int orientLat;
     int orientLong;
-	Satellite* sat ;
 };
 
 // Classe modélisant un satellite
@@ -38,6 +36,10 @@ class Satellite
         // Recherche la prochaine photo qui peut être prise et indique à quel tour elle peut être prise
         // Pré-condition : les photos sont triées
         EtatSatellitePhoto prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourCourant, unsigned int tourMax);
+
+		// Recherche la prochaine photo qui peut être prise en fonction d'un ratio (points de la collection / nb photos à prendre de la collection)
+		// Pré-condition : les photos sont triées
+		EtatSatellitePhoto prochainePhotoRatio(const std::vector<Photo*>& photos, unsigned int tourCourant, unsigned int tourMax);
 
         // Getters
 

@@ -100,7 +100,6 @@ void Simulation::parseData(const char *file) {
 	}
 
     // Ajout de pointeurs vers toutes les photos dans la même liste pour un traitement plus rapide
-	trierCollection();
 	
 	for(Collection& c : collectionListe)
     {
@@ -111,6 +110,7 @@ void Simulation::parseData(const char *file) {
             p.setCollection(&c);
         }
     }
+	trierCollection();
 }
 
 void Simulation::trierPhotos()
@@ -130,15 +130,15 @@ void Simulation::trierPhotos()
 
 
 void Simulation::trierCollection() {
-	std::sort(collectionListe.begin(), collectionListe.end(), [](Collection a, Collection b)
+	std::sort(m_photos.begin(), m_photos.end(), [](Photo* a, Photo* b)
 	{
-		if (a.getRatio() == b.getRatio()) {
-			if (b.getImages().front().getLatitude() == a.getImages().front().getLatitude()) {
-				return a.getImages().front().getLongitude() > b.getImages().front().getLongitude();
+		if (a->getCollection()->getRatio() == b->getCollection()->getRatio()) {
+			if (b->getCollection()->getImages().front().getLatitude() == a->getCollection()->getImages().front().getLatitude()) {
+				return a->getCollection()->getImages().front().getLongitude() > b->getCollection()->getImages().front().getLongitude();
 			}
-			return b.getImages().front().getLatitude() > a.getImages().front().getLatitude();
+			return b->getCollection()->getImages().front().getLatitude() > a->getCollection()->getImages().front().getLatitude();
 		}
-		return a.getRatio() > b.getRatio();
+		return a->getCollection()->getRatio() > b->getCollection()->getRatio();
 	});
 }
 
@@ -146,6 +146,19 @@ void Simulation::trierCollection() {
 
 void Simulation::resolutionSimple()
 {
+	// Ajout de pointeurs vers toutes les photos dans la même liste pour un traitement plus rapide
+
+	for (Collection& c : collectionListe)
+	{
+		std::vector<Photo>& photos = c.getImages();
+		for (Photo& p : photos)
+		{
+			m_photos.push_back(&p);
+			p.setCollection(&c);
+		}
+	}
+	trierPhotos();
+
     // on traite les satellite un par un indépendamment
     for(Satellite& s : satelliteListe)
     {
@@ -181,20 +194,29 @@ void Simulation::resolutionSimple()
 
 void Simulation::resolutionRatio()
 {
-	
-	std::vector<EtatSatellitePhoto> possibilite;
-	ofstream dataFil("./final_round_2016.out/test.out");
+	// Ajout de pointeurs vers toutes les photos dans la même liste pour un traitement plus rapide
+
+	for (Collection& c : collectionListe)
+	{
+		std::vector<Photo>& photos = c.getImages();
+		for (Photo& p : photos)
+		{
+			m_photos.push_back(&p);
+			p.setCollection(&c);
+		}
+	}
+	trierCollection();
+
 	// on traite les satellites un par un indépendamment
 	for (Satellite& s : satelliteListe)
 	{
-		std::cout << s.getId() << std::endl;
 
 		unsigned int tour = 0;
 
 		while (tour <= nombreTour)
 		{
-			std::cout << tour << std::endl;
-			EtatSatellitePhoto prochain = s.prochainePhoto(m_photos, tour, nombreTour);
+			// On définit la prochaine photo à prendre
+			EtatSatellitePhoto prochain = s.prochainePhotoRatio(m_photos, tour, nombreTour);
 			
 
 			if (prochain.photo == nullptr)
@@ -203,20 +225,18 @@ void Simulation::resolutionRatio()
 			}
 
 			unsigned int tourObjectif = prochain.tour;
-			dataFil << prochain.photo->getLatitude() << " " << prochain.photo->getLongitude() << " " << prochain.photo->getCollection()->getRatio() << " " << prochain.photo->getCollection()->getPoints() << std::endl;
-
+		
 			// on fait le déplacement nécessaire pour prendre la photo
 			while (tour < tourObjectif && tour <= nombreTour)
 			{
 				tour++;
 				s.tourSuivant(prochain.orientLat - s.getOrientLat(), prochain.orientLong - s.getOrientLong());
 			}
+			// On prend la photo une fois arrivé au tour souhaité
 			if (tour <= nombreTour)
 			{
 				s.prendrePhoto(*prochain.photo, tour);
 				nombrePhotosPrises++;
-				prochain.photo->getCollection()->setRatio(prochain.tour - tour);
-				trierCollection();
 			}
 		}
 	}

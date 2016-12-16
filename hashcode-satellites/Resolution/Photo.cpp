@@ -40,7 +40,7 @@ bool Photo::intervallePositionOk(int latitudeMin, int latitudeMax, int longitude
 
 bool Photo::intervalleLatitudeOk(int latitudeMin, int latitudeMax)
 {
-    return m_latitude >= latitudeMin && m_latitude <= latitudeMax && m_longitude;
+    return m_latitude >= latitudeMin && m_latitude <= latitudeMax;
 }
 
 bool Photo::intervalleLongitudeOk(int longitudeMin, int longitudeMax)
