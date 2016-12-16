@@ -86,12 +86,45 @@
 		Une fois la liste d'images triées, nous recherchons la meilleure image possible à prendre selon le ratio avec un intervalle de tours limité. Ainsi, on vérifie si la meilleure image n'a pas une distance de tours relativement élévée grâce à un seuil. Si tel est le cas, on vérifie si il n'existe pas d'autres photos plus proche. S'il n'y a pas de photos comprise dans le seuil de tours, on incrémente le tour afin de trouver une solution.
 		
 		Cependant, cet algorithme n'est malheureusement pas idéal car il se base sur l'hypothèse que la photo la plus valable permet de trouver le chemin le plus valable. Pour améliorer cet algorithme, il faudrait pouvoir comparer les chemins au fur et à mesure de l'avancée de l'algorithme et modifier le chemin à chaque fois que l'on en trouve un qui est plus intéressant. 
+
+		% subsection résultats (end)
+
+	\section{Nombre d'occurences} % (fold)
+	\label{sec:encore_un_autre_algorithme}
+
+	\subsection{Principe} % (fold)
+		\label{sub:principe}
+	Dans cette algorithme, on va retrouver les principes de l'algorithmes naïfs avec une implémentation différente. On va retrouver la notion de ratio vu d'un point de vue différent. On va supposer que le ratio: $r=\frac{nombreDOccurenceEnCours}{nombreDOccurenceTotal}$ (où le nombre d'occurence en cours correspond au nombre de fois où la photo a été vu par un satellite et le nombre d'occurence total le nombre de fois qu'elle peut être vu par l'ensemble des satellites) va décider de la prise d'une photo à la place d'une autre.
+	\\
+	\\
+	On suppose ici que si on doit choisir entre deux photos, il vaut mieux prendre celle au ratio le plus élevé, et donc le nombre d'occurence restante le moins important maintenant.
+
+
+	\subsection{Implémentation} % (fold)
+		\label{sub:principe}
+		Le principe est simple, il s'agit encore une fois de faire une boucle sur les satelittes, pour chaque satellites on va faire un tableau qui va lister toutes les photos qui peuvent être prises, qui va donner un nombre d'occurence pour chaque photo.
+		\\
+		\\
+		Concernant l'implémentation, chaque satellite va disposer de ces deux vecteurs:
+		\includegraphics [width=100mm]{images/ex1.png} \\[0.7cm]
+		Un vecteur de vecteur de photos, qui va contenir le vecteur de toutes les photos qui peuvent être prise par le satelitte tour par tour et un vecteur qui va indiquer les vecteurs non vide du précédent tableau.
+		\\
+		Une fois cela fait, on va commencer une simulation ou pour chaque satellite, on va faire l'ensemble des tours, et on va choisir quelle photo il prend plutôt qu'une autre en fonction du ratio.
 		
+	\subsection{Limites de l'algorithme} % (fold)
+	\label{sub:limites_de_l_algorithme}
 
-		\subsection{Résultats} % (fold)
-		\label{sub:résultats}
+		L'algorithme est limité dans le fait ou il va regarder pour chaque satellite les uns après les autres, ce qui est un problème sur la façon dont nous avons conçu l'algorithme à la base, il faudrait en effet changer cette méthode car elle n'est pas la plus efficiente: le programme ne sait pas comment vont réagir les autres satellites ni comment ils vont tourner à ce stade, et donc les choix ne sont forcément pas les meilleurs.
+		\\
+		\\
+		Une meilleure approche peut consister à augmenter les résultats en changeant l'ordre des satelittes ou refaire la simulation avec tous les ordres possibles et choisir le meilleur résultat. Le problème c'est que cela nécessite pour n satellites de lancer $n!$ fois la simulation.
 
-		\footnotesize
+	\section{Résultats} % (fold)
+	\label{sec:résultats}
+	
+	% section résultats (end)
+
+			\footnotesize
 		\hspace*{-1cm}\noindent\begin{tabularx}{16cm}{|l|p{4cm}|X|p{2cm}|r|}
 			\hline
 			 & \textbf{Jeu de données} & \textbf{Temps} & \textbf{Score} & \textbf{Pourcentage} \\
@@ -108,6 +141,12 @@
 		    \cellcolor{yellow!25} & overlap & X secondes & 14114 & 1.21 \\
 		    \cellcolor{yellow!25} & weekend & X secondes & 50612 & 0.75 \\
 				\hline
+			\cellcolor{green!25} Algorithme occurences & & & & \\
+		    \cellcolor{green!25} & forever\_alone & 1.21 secondes & 48000 & 34.44 \\
+		    \cellcolor{green!25} & constellation & 83 secondes & 64313 & 2.15 \\
+		    \cellcolor{green!25} & overlap & X secondes & 14114 & 1.21 \\
+		    \cellcolor{green!25} & weekend & X secondes & 50612 & 0.75 \\
+				\hline
 		    \cellcolor{red!25} Meilleurs résultats & & & & \\
 		    \cellcolor{red!25} & forever\_alone & X secondes & 44000 & 35.5 \\
 		    \cellcolor{red!25} & constellation & X secondes & 44000 & 35.5 \\
@@ -117,6 +156,18 @@
 		\end{tabularx}
 		\normalsize
 
-		% subsection résultats (end)
+	\section{Arbitre} % (fold)
+	\label{sec:arbitre}
+	
+
+
+	% section arbitre (end)
+	
+	% subsection résultats (end)
+	
+	% subsection limites_de_l_algorithme (end)
+
+		% subsection principe (end)	
+	% section encore_un_autre_algorithme (end)
 
 \end{document}
