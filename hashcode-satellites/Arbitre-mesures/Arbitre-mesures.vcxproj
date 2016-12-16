@@ -147,13 +147,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Arbitre.h" />
-    <ClInclude Include="Collection.h" />
+    <ClInclude Include="ArgumentInvalideException.hpp" />
+    <ClInclude Include="Collection.hpp" />
+    <ClInclude Include="PicIn.hpp" />
     <ClInclude Include="PicTaken.h" />
     <ClInclude Include="Parser.h" />
-    <ClInclude Include="Satellite.h" />
+    <ClInclude Include="SatelliteArbitre.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Arbitre.cpp" />
+    <ClCompile Include="ArgumentInvalideException.cpp" />
+    <ClCompile Include="Collection.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="PicIn.cpp" />
+    <ClCompile Include="PicTaken.cpp" />
+    <ClCompile Include="SatelliteArbitre.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

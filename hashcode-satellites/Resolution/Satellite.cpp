@@ -45,6 +45,7 @@ Satellite::Satellite(int latitude, int longitude, int vitLat, unsigned int orien
     m_idCount++;
 }
 
+
 void Satellite::tourSuivant(int orientLat, int orientLong)
 {
     // Déplacement
