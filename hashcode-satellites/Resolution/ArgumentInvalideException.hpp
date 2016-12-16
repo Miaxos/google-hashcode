@@ -1,8 +1,8 @@
 #pragma once
 
-#include <stdexcept>
+#include <exception>
 
-class ArgumentInvalideException : public std::runtime_error
+class ArgumentInvalideException : public std::exception
 {
     public:
 

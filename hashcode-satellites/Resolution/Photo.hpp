@@ -61,29 +61,10 @@ class Photo
         {
             return m_tourPhoto;
         }
-        inline void addOccu()
-        {
-            nbOccurenceTotal = nbOccurenceTotal + 1;
-        }
-        inline unsigned int getOccu() const
-        {
-            return nbOccurenceTotal;
-        }
-        inline unsigned int getOccuCours() const
-        {
-            return nbOccurenceCour;
-        }
-        inline void addOccuCours()
-        {
-            nbOccurenceCour = nbOccurenceCour + 1;
-        }
-    bool operator <(const Photo& p) {
-        if(nbOccurenceCour/nbOccurenceTotal > p.nbOccurenceCour/p.nbOccurenceTotal) {
-            return true;
-        }
-        return false;
-    }
 
+		inline Collection* getCollection() {
+			return m_collection;
+		}
 
     private:
 
@@ -91,9 +72,6 @@ class Photo
 
         int m_latitude; // position de la photo en latitude
         int m_longitude; // position de la photo en longitude
-    
-        unsigned int nbOccurenceTotal = 0;
-        unsigned int nbOccurenceCour = 0;
 
         bool m_photoPrise; // vaut true si la photo a été prise par un satellite
         unsigned int m_idSatellitePhotographe; // L'id du satellite qui a pris la photo
