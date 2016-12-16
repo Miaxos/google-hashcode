@@ -99,7 +99,6 @@
 	\\
 	On suppose ici que si on doit choisir entre deux photos, il vaut mieux prendre celle au ratio le plus élevé, et donc le nombre d'occurence restante le moins important maintenant.
 
-
 	\subsection{Implémentation} % (fold)
 		\label{sub:principe}
 		Le principe est simple, il s'agit encore une fois de faire une boucle sur les satelittes, pour chaque satellites on va faire un tableau qui va lister toutes les photos qui peuvent être prises, qui va donner un nombre d'occurence pour chaque photo.
@@ -124,6 +123,8 @@
 	\section{Résultats} % (fold)
 	\label{sec:résultats}
 	
+	Les temps de chaque algorithme ont été pris sur la même machine.
+
 	% section résultats (end)
 
 			\footnotesize
@@ -144,10 +145,10 @@
 		    \cellcolor{yellow!25} & weekend & X secondes & 50612 & 0.75 \\
 				\hline
 			\cellcolor{green!25} Algorithme occurences & & & & \\
-		    \cellcolor{green!25} & forever\_alone & 1.21 secondes & 48000 & 34.44 \\
-		    \cellcolor{green!25} & constellation & 83 secondes & 64313 & 2.15 \\
-		    \cellcolor{green!25} & overlap & X secondes & 14114 & 1.21 \\
-		    \cellcolor{green!25} & weekend & X secondes & 50612 & 0.75 \\
+		    \cellcolor{green!25} & forever\_alone & 1.21 secondes & 47744 & 34.26 \\
+		    \cellcolor{green!25} & constellation & 83 secondes & 62841 & 2.1 \\
+		    \cellcolor{green!25} & overlap & 448 secondes & 10375 & 0.89 \\
+		    \cellcolor{green!25} & weekend & 107 secondes & 52078 & 0.78 \\
 				\hline
 		    \cellcolor{red!25} Meilleurs résultats & & & & \\
 		    \cellcolor{red!25} & forever\_alone & X secondes & 44000 & 35.5 \\
@@ -161,8 +162,6 @@
 	\section{Arbitre} % (fold)
 	\label{sec:arbitre}
 	
-
-
 	% section arbitre (end)
 	
 	% subsection résultats (end)
