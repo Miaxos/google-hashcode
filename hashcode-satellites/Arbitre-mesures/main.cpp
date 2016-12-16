@@ -22,6 +22,6 @@ int main(int argc, char *argv[])
 	int &score = arb.getScore();
 
 	
-	std::cout << "Score = " <<score << std::endl;
+	std::cout <<"Fichier : "<<argv[2]<< "Score = " <<score << std::endl;
 	return EXIT_SUCCESS;
 }
