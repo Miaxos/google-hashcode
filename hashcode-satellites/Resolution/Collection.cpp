@@ -2,8 +2,7 @@
 #include "ArgumentInvalideException.hpp"
 
 Collection::Collection(unsigned int points, unsigned int nbImages, unsigned int nbIntervalles) :
-    m_points(points),
-	ratioEfficacite(m_points/nbImages)
+    m_points(points)
 {
     if(points > 10000)
     {

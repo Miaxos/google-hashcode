@@ -1,5 +1,5 @@
 #include "ArgumentInvalideException.hpp"
 
 ArgumentInvalideException::ArgumentInvalideException(char* desc) noexcept :
-    std::exception(desc)
+    std::runtime_error(desc)
 { }

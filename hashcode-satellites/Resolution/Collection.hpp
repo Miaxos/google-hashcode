@@ -22,6 +22,7 @@ class Collection
         // Ajoute un intervalle de temps à la collection
         void addIntervalle(unsigned int debut, unsigned int fin);
 
+
         // Getters
         inline std::vector<Photo>& getImages()
         {
@@ -38,14 +39,9 @@ class Collection
             return m_points;
         }
 
-		inline double getRatio() const {
-			return ratioEfficacite;
-		}
-
     private:
 
         unsigned int m_points;
         std::vector<Photo> m_images;
         std::vector<Intervalle> m_intervalles;
-		double ratioEfficacite;
 };
