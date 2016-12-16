@@ -6,7 +6,6 @@ Photo::Photo(int latitude, int longitude) :
     m_photoPrise(false),
     m_latitude(latitude),
     m_longitude(longitude)
-
 {
     if(latitude < -306000 || latitude > 306000)
     {
@@ -41,7 +40,7 @@ bool Photo::intervallePositionOk(int latitudeMin, int latitudeMax, int longitude
 
 bool Photo::intervalleLatitudeOk(int latitudeMin, int latitudeMax)
 {
-    return m_latitude >= latitudeMin && m_latitude <= latitudeMax && m_longitude;
+    return m_latitude >= latitudeMin && m_latitude <= latitudeMax;
 }
 
 bool Photo::intervalleLongitudeOk(int longitudeMin, int longitudeMax)

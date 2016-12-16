@@ -7,7 +7,7 @@ class Photo;
 
 struct EtatSatellitePhoto
 {
-    Photo* photo; // Pointeur vers la photo
+    Photo* photo;
     unsigned int tour;
     int orientLat;
     int orientLong;
@@ -30,17 +30,20 @@ class Satellite
         */
         void tourSuivant(int orientLat, int orientLong);
 
+
         // Indique que le satellite prend la photo donnée au tour donné
         void prendrePhoto(Photo& photo, unsigned int tour);
 
         // Recherche la prochaine photo qui peut être prise et indique à quel tour elle peut être prise
         // Pré-condition : les photos sont triées
         EtatSatellitePhoto prochainePhoto(const std::vector<Photo*>& photos, unsigned int tourCourant, unsigned int tourMax);
-    
-    void instancierTab(std::vector<std::vector<Photo*>> &tabs, const std::vector<Photo*>& photos, unsigned int tourMax, std::vector<int> &idtab);
 
+		// Recherche la prochaine photo qui peut être prise en fonction d'un ratio (points de la collection / nb photos à prendre de la collection)
+		// Pré-condition : les photos sont triées
+		EtatSatellitePhoto prochainePhotoRatio(const std::vector<Photo*>& photos, unsigned int tourCourant, unsigned int tourMax);
 
         // Getters
+
         inline int getOrientLat() const
         {
             return m_orientLat;
@@ -50,23 +53,6 @@ class Satellite
         {
             return m_orientLong;
         }
-    
-    inline int getLat() const
-    {
-        return m_latitude;
-    }
-    inline int getLong() const
-    {
-        return m_longitude;
-    }
-    inline int getOrientMaxTour() const
-    {
-        return m_orientMaxTour;
-    }
-    inline int getOrientMaxTotal() const
-    {
-        return m_orientMaxTotal;
-    }
 
         inline unsigned int getId() const
         {
@@ -74,7 +60,6 @@ class Satellite
         }
 
         static const int VIT_LONG = -15; // vitesse du satellite en longitude, correspondant à la vitesse de rotation de la Terre
-    std::vector<std::vector<Photo*>> pointspossibles; // List des pts possibles pour les satellites
 
     private:
 
@@ -85,12 +70,10 @@ class Satellite
         int m_latitude; // position du satellite en latitude
         int m_longitude; // position du satellite en longitude
         int m_vitLat; // vitesse du satellite en latitude
-
         int m_orientLat; // orientation en latitude
         int m_orientLong; // orientation en longitude
         int m_orientMaxTour; // changement d'orientation max par tour
         int m_orientMaxTotal; // orientation max totale
-
 };
 
 inline std::ostream& operator<<(std::ostream& os, Satellite sat)
