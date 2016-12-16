@@ -146,6 +146,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Arbitre.h" />
+    <ClInclude Include="Collection.h" />
+    <ClInclude Include="PicTaken.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="Satellite.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

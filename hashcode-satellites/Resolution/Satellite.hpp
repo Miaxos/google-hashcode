@@ -30,6 +30,7 @@ class Satellite
         */
         void tourSuivant(int orientLat, int orientLong);
 
+
         // Indique que le satellite prend la photo donnée au tour donné
         void prendrePhoto(Photo& photo, unsigned int tour);
 
