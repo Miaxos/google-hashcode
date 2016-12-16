@@ -70,6 +70,23 @@
 			Le principe est donc d'avoir une liste de toutes les images, que l'on trie selon leur latitude puis selon leur longitude. A partir de là, on peut faire une recherche dichotomique sur la latitude, ce qui permet d'arriver rapidement à une image dont la latitude est dans la fenêtre de la caméra. On sait alors que les images qui se situent dans la fenêtre, si elles existent, sont classées autour de celle que l'on vient de trouver. On fait alors une recherche séquentielle sur toutes ces images proches jusqu'à en trouver une qui est dans la fenêtre, ou jusqu'à ce que l'on sorte de celle-ci.
 			
 			Il n'est cependant pas possible d'effectuer une recherche dichotomique pour trouver directement l'image de manière systématique avec ce principe. En effet, dans certains cas la recherche dichotomique peut supprimer de son espace de recherche des images dont la latitude est dans la fenêtre. Par exemple, si on arrive sur une image dont la latitude est correcte mais la longitude est trop grande, la recherche dichotomique considère que toutes les images dont la latitude est supérieure à celle-ci ne sont pas dans la fenêtre. Or c'est faux dans la plupart des cas : on peut avoir une image dont la latitude est supérieure mais toujours dans la fenêtre et dont la longitude est aussi dans la fenêtre.
+			
+	\section{Algorithme amélioré avec utilisation d'un ratio}
+	
+		Le but de cet algorithme est d'utiliser les différentes informations que nous avons sur les collections d'images à savoir le nombre de points à gagner, le nombre de tours et le nombre d'images à photographier. Ainsi, nous nous servons de ces informations pour créer une priorité sur les photos à prendre.
+	
+		\subsection{Principe}
+		
+		Le principe de cet algorithme est de se baser sur la solution naïve présentée précedemment en améliorant l'ordre de la sélection des photos à prendre pour les satellites. Ainsi, pour chaque satellite on identifie pour chaque tour, tout d'abord une photo ayant un ratio (NbPoints/NbPhotosAPrendre) supérieure et on la prend en photo si elle existe. Si tel n'est pas le cas, on choisit la photo la plus proche et on continue au prochain tour à trouver la photo la plus valable en moyenne.
+		
+		\subsection{Détails d'implémentation}
+		
+		Tout comme l'algorithme naïf, nous avons une liste de toutes les images du jeu de données. Cependant, nous choisissons d'abord de les trier via le ratio calculé pour chaque image avec un rapport entre le nombre de points de la collection et le nombre de photos à prendre. Si nous sommes dans un cas d'égalité de ratio, nous trions les images par leur latitude et leur longitude.
+		
+		Une fois la liste d'images triées, nous recherchons la meilleure image possible à prendre selon le ratio avec un intervalle de tours limité. Ainsi, on vérifie si la meilleure image n'a pas une distance de tours relativement élévée grâce à un seuil. Si tel est le cas, on vérifie si il n'existe pas d'autres photos plus proche. S'il n'y a pas de photos comprise dans le seuil de tours, on incrémente le tour afin de trouver une solution.
+		
+		Cependant, cet algorithme n'est malheureusement pas idéal car il se base sur l'hypothèse que la photo la plus valable permet de trouver le chemin le plus valable. Pour améliorer cet algorithme, il faudrait pouvoir comparer les chemins au fur et à mesure de l'avancée de l'algorithme et modifier le chemin à chaque fois que l'on en trouve un qui est plus intéressant. 
+		
 
 		\subsection{Résultats} % (fold)
 		\label{sub:résultats}
