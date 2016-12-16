@@ -15,15 +15,15 @@ public:
 	SatelliteA(unsigned int id_sat,int latitude, int longitude, int vitLat, unsigned int orientMaxTour, unsigned int orientMaxTotal);
 
 	//Position du satellite au tour i
-	vector<int>& pos_tour(int i);
+	vector<int> pos_tour(int i);
 
 	//Intervale d'orientation de la caméra possible au tour i
-	vector<int>& orientLat_i(int i);
-	vector<int>& orientLong_i(int i);
+	vector<int> orientLat_i(int i);
+	vector<int> orientLong_i(int i);
 
 	//Intervale de photo possible au tour i
-	vector<int>& rangeCamLat_i(int i);
-	vector<int>& rangeCamLong_i(int i);
+	vector<int> rangeCamLat_i(int i);
+	vector<int> rangeCamLong_i(int i);
 
 
 	// Getters

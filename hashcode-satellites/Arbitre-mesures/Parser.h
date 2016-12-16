@@ -1,6 +1,7 @@
 #pragma once
 #include "SatelliteArbitre.h"
 #include "PicTaken.h"
+#include "Collection.hpp"
 #include <vector>
 #include<map>
 
@@ -9,6 +10,7 @@ class Parser
 private:
 	std::map<int, SatelliteA> list_satellite_in;
 	std::vector<PicTaken> list_pictaken;
+	std::vector<Collection> list_collec;
 	unsigned int nombreTour;
 	unsigned int nombrePicTaken;
 
@@ -27,6 +29,11 @@ public:
 	inline const std::vector<PicTaken>& getList_pictaken()
 	{
 		return(list_pictaken);
+	}
+
+	inline const std::vector<Collection>& getListCollec()
+	{
+		return list_collec;
 	}
 
 };

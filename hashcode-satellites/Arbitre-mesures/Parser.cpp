@@ -16,7 +16,7 @@ void Parser::parseData_in(const char * file)
 {
 	ifstream dataFile;
 	dataFile.open(file);
-	std::cout << file << std::endl;
+
 
 	if (!dataFile.is_open())
 	{
@@ -24,6 +24,7 @@ void Parser::parseData_in(const char * file)
 		exit(EXIT_FAILURE);
 	}
 
+	int id_sat = 0;
 	string line;
 	unsigned int lineCounter = 1;
 	getline(dataFile, line);
@@ -34,7 +35,8 @@ void Parser::parseData_in(const char * file)
 	// Ajout des satellites
 	const unsigned int satelliteNumber = stoi(line);
 	lineCounter++;
-	for (unsigned int i = lineCounter; i < lineCounter + satelliteNumber; i++) {
+	for (unsigned int i = lineCounter; i < lineCounter + satelliteNumber; i++) 
+	{
 		getline(dataFile, line);
 		istringstream splitStream(line);
 		string splitString;
@@ -47,10 +49,62 @@ void Parser::parseData_in(const char * file)
 		int vitLatSat = stoi(contenuLigne.at(2));
 		int orientMaxTourSat = stoi(contenuLigne.at(3));
 		int orientMaxTotalSat = stoi(contenuLigne.at(4));
-		SatelliteA s(satelliteNumber,latitudeSat, longitudeSat, vitLatSat, orientMaxTourSat, orientMaxTotalSat);
+		SatelliteA s(id_sat,latitudeSat, longitudeSat, vitLatSat, orientMaxTourSat, orientMaxTotalSat);
 		Parser::list_satellite_in[s.getId()]=s;
+		id_sat++;
 	}
 	lineCounter += satelliteNumber;
+
+	// Ajout des collections
+	getline(dataFile, line);
+	const unsigned int collectionNumber = stoi(line);
+	lineCounter++;
+	for (unsigned int j = 0; j < collectionNumber; j++)
+	{
+		getline(dataFile, line);
+		istringstream splitStream(line);
+		string splitString;
+		vector<string> contenuLigne;
+		while (getline(splitStream, splitString, ' ')) {
+			contenuLigne.push_back(splitString);
+		}
+		int nbPoints = stoi(contenuLigne.at(0));
+		int nbPhotos = stoi(contenuLigne.at(1));
+		int nbIntervalles = stoi(contenuLigne.at(2));
+		Collection c(nbPoints, nbPhotos, nbIntervalles);
+		lineCounter++;
+
+		// Ajout des photos
+		for (unsigned int i = lineCounter; i < lineCounter + nbPhotos; i++) {
+			getline(dataFile, line);
+			istringstream splitStream(line);
+			string splitString;
+			vector<string> contenuLigne;
+			while (getline(splitStream, splitString, ' ')) {
+				contenuLigne.push_back(splitString);
+			}
+			int latitudePhoto = stoi(contenuLigne.at(0));
+			int longitudePhoto = stoi(contenuLigne.at(1));
+			c.addImage(latitudePhoto, longitudePhoto);
+		}
+		lineCounter += nbPhotos;
+
+		// Ajout des intervalles
+		for (unsigned int i = lineCounter; i < lineCounter + nbIntervalles; i++) {
+			getline(dataFile, line);
+			istringstream splitStream(line);
+			string splitString;
+			vector<string> contenuLigne;
+			while (getline(splitStream, splitString, ' ')) {
+				contenuLigne.push_back(splitString);
+			}
+			int debutIntervalle = stoi(contenuLigne.at(0));
+			int finIntervalle = stoi(contenuLigne.at(1));
+			c.addIntervalle(debutIntervalle, finIntervalle);
+		}
+		lineCounter += nbIntervalles;
+		list_collec.push_back(c);
+	}
 }
 
 

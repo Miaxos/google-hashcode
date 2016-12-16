@@ -8,7 +8,6 @@ int main(int argc, char *argv[])
 {
 	std::cout << "Hello world" << std::endl;
 
-	std::cout << argv[0] << endl;
 
 	if (argc != 3)
 	{
@@ -18,13 +17,11 @@ int main(int argc, char *argv[])
 
 	
 
-	Parser parser;
-	parser.parseData_in(argv[1]);
-	parser.parseData_out(argv[2]);
-	Arbitre arb(parser.getList_satellite_in(), parser.getList_pictaken());
-	if (arb.list_valid() == false)
-	{
-		return EXIT_FAILURE;
-	}
+	
+	Arbitre arb(argv[1],argv[2]);
+	int &score = arb.getScore();
+
+	
+	std::cout << "Score = " <<score << std::endl;
 	return EXIT_SUCCESS;
 }
